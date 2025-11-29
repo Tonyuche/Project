@@ -2,7 +2,7 @@
   
 # Network Documentation
 ## Trendy Designs
-245 Hoka Avenue, Winnipeg,   
+245 Smith Avenue, Winnipeg,   
 HR - 2046678234     
 info@trendydesigns.ca
   
