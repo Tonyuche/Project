@@ -18,7 +18,11 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 ### Network Documentation By *AzureCloud Solutions Ltd.*
 </div>
 
+### Physical Topology
+<img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
+
 ###  Logical Topology
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/31c1eaa8-8701-4408-bc89-44aaae9f31b8" />
 
 <img width="650" height="950" alt="Logical Draw" src="https://github.com/user-attachments/assets/40cbb3cc-1828-4b8b-a225-fb25d2b00825" />
 |**VLAN ID**|**Name**|**Subnet / Mask**|**DHCP Range (Example)**|**Purpose**|
@@ -29,7 +33,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 99,MANAGEMENT,192.168.99.0/24,Static IPs,"Network Devices (Switches, APs, Router/Firewall)"
 100,GUEST_WIFI,192.168.100.0/24,192.168.100.10 - .50,Isolated Guest Internet Access
 
-### Physical Topology
-<img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
 
-<img width="620" height="930" alt="Copilot_20251128_121104" src="https://github.com/user-attachments/assets/2fbae16a-186e-4099-8c9a-e4d0217d7bd9" />
+
+
+
