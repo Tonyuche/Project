@@ -19,7 +19,15 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 </div>
 
 ###  Logical Topology
+
 <img width="650" height="950" alt="Logical Draw" src="https://github.com/user-attachments/assets/40cbb3cc-1828-4b8b-a225-fb25d2b00825" />
+|**VLAN ID**|**Name**|**Subnet / Mask**|**DHCP Range (Example)**|**Purpose**|
+|------|------|-----|------|-------|
+|10|USERS|192.168.10.0/24|192.168.10.100 - .200|"Employee PCs, Laptops, Printers"
+20,POS,192.168.20.0/24,Static IPs / Short DHCP,"POS Machines, Payment Devices (Highly Secured)"
+30,SERVERS,192.168.30.0/24,Static IPs,"Servers (File, Inventory, Domain Controller)"
+99,MANAGEMENT,192.168.99.0/24,Static IPs,"Network Devices (Switches, APs, Router/Firewall)"
+100,GUEST_WIFI,192.168.100.0/24,192.168.100.10 - .50,Isolated Guest Internet Access
 
 ### Physical Topology
 <img width="620" height="930" alt="Copilot_20251128_121104" src="https://github.com/user-attachments/assets/2fbae16a-186e-4099-8c9a-e4d0217d7bd9" />
