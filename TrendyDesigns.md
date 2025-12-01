@@ -15,13 +15,20 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 
 <div align="center">
   
-### Network Documentation By *AzureCloud Solutions Ltd.*
+## Network Documentation By *AzureCloud Solutions Ltd.*
 </div>
 
-### Physical Topology
-<img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
+### 1. Network Topology
 
-###  Logical Topology
+### 1.1 Physical Topology
+<img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
+* **Focus:** A centralized, rack-mounted approach for core equipment with structured cabling to endpoints.
+* **Core Equipment Location:** A dedicated, locked server closet or data cabinet is recommended for the Firewall/Router, Managed Switch, and Server.
+* **Wiring:** All permanent devices (PCs, POS terminals, Printers, Access Points) must be connected using **Cat6 Ethernet cable** running through a Patch Panel in the closet, connecting to the Managed Switch.
+* **Endpoints:**
+  *  PCs and POS devices are wired for maximum reliability and speed.
+  *  Wireless Access Points (APs) are ceiling-mounted and PoE-powered from the switch to provide office-wide $\text{Wi-Fi}$ coverage.
+### 1.2 Logical Topology
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/31c1eaa8-8701-4408-bc89-44aaae9f31b8" />
 
 ### Network Topology Summary ###
@@ -29,8 +36,8 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
  * SW1 <-> SW2: 2x parallel links aggregated with LACP (Port-Channel) to avoid STP flapping.
  * R1 and R2 present router-on-a-stick subinterfaces (802.1Q trunk) for VLANs.
  * HSRP for default-gateway high-availability across VLANs.
-
-### Core Network Devices
+### 2. Network Devices and Servers/Services
+### 2.1 Core Network Devices
 |**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
 |---|---|---|---|---|
 |R1 / R2|	Cisco ISR Router|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
@@ -38,7 +45,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP0 and AP1, guest VLAN isolated|
 |AP0 / AP1	|Cisco Lightweight AP|	Wireless access	|1x Gig uplink	|AP0 → Sales floor, AP1 → Guest/Production coverage|
 
-### Server Infrastructure
+### 2.2 Server Infrastructure
 |Server	|Hostname	|Role	|VLAN	|IP Address|
 |---|---|---|---|---|
 |DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (30)	|192.168.30.10|
@@ -46,7 +53,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |FileSrv01	|File Server	|Shared storage	|Servers VLAN (30)|	192.168.30.20|
 |InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (30)|192.168.30.30|
 
-### Departmental Endpoints
+### 3 Addressing Documentation
 |**Department**|**VLAN ID **|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
 |----|----|----|----|---|----|---|
 |SALES_CS |10 |192.168.10.0/24| 192.168.10.1|.100-.200|PCs:18-20, POS: 3 units| Sales & customer service,POS VLANS nested under Sales for cashier terminals|
@@ -61,6 +68,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC:33| Restricted VLAN|
 |GUEST|90 |192.168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
 |BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
+
 ### Management & Security
 * **INFRA_MGMT VLAN 70)**
   * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
