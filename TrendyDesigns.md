@@ -28,6 +28,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 * **Endpoints:**
   *  PCs and POS devices are wired for maximum reliability and speed.
   *  Wireless Access Points (APs) are ceiling-mounted and PoE-powered from the switch to provide office-wide $\text{Wi-Fi}$ coverage.
+
 #### 1.2 Logical Topology
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/31c1eaa8-8701-4408-bc89-44aaae9f31b8" />
 
