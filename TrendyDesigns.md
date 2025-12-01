@@ -84,9 +84,9 @@ The full configuration files will be stored securely, but key configurations are
     * PoE: Enabled on ports connecting to APs and potentially VoIP phones.
 **Wireless Access Point Configuration**
   * **SSID Mapping:**
-      * **Trendy-Data** $\rightarrow$ $\text{ VLAN 10}$ ($\text{WPA2-Enterprise}$ authentication via $\text{DC}$-Server)
-      * **Trendy-WLAN** $\rightarrow$ $\text{VLAN 99}$ ($\text{WPA2-PSK}$ for employee mobile)
-      * **Trendy-Guest** $\rightarrow$ $\text{VLAN 90}$ ($\text{Captive Portal}$ enabled)
+      * **Trendy-Data** ->VLAN 10 (WPA2-Enterprise authentication via DC-Server)
+      * **Trendy-WLAN** ->VLAN 99 (WPA2-PSK for employee mobile)
+      * **Trendy-Guest** ->VLAN 90 (Captive Portal enabled)
 ### 5. Management & Security
 * **INFRA_MGMT (VLAN 70)**
   * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
@@ -97,11 +97,11 @@ The full configuration files will be stored securely, but key configurations are
   * LACP trunk between core switches for loop prevention
   * Guest VLAN isolated via WLC with Internet-only access
 #### 5.1 Secure Credential Storage
-The method used to securely store all administrative login credentials (Firewall, Switch, $\text{APs}$, Server Admin accounts, $\text{ERP}$ passwords) is:
+The method used to securely store all administrative login credentials (Firewall, Switch, APs, Server Admin accounts, ERP passwords) is:
 * **Method:** A centralized, business-grade, encrypted *Password Manager* (e.g., Bitwarden Teams or 1Password Business) is implemented.
-* **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with $\text{MFA}$ (Multi-Factor Authentication).
+* **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with MFA (Multi-Factor Authentication).
 * **Repository:** The actual passwords are not stored in the GitHub documentation repository. Only this methodology and the necessary unprivileged user account names are documented.
-* **Principle:** Credentials are encrypted in transit and at rest using strong standards like $\text{AES-256}$ and are only decrypted locally on authorized administrator workstations.
+* **Principle:** Credentials are encrypted in transit and at rest using strong standards like AES-256 and are only decrypted locally on authorized administrator workstations.
 
 **IP convention for DCHP/DNS**
 * .1 = HSRP/VRRP virtual gateway
