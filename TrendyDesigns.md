@@ -69,7 +69,24 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |GUEST|90 |192.168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
 |BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
 
-### Management & Security
+### 4. Devices Configurations (Summary)
+The full configuration files will be stored securely, but key configurations are summarized here:
+* **Firewall/Router Configuration**
+  * **Default Deny:** The firewall is configured to block all incoming traffic (WAN to LAN) by default.
+  * **Inter-VLAN Routing:** Rules are applied to block VLAN 20 (POS) and VLAN 100(Guest) from accessing VLAN 30 (Servers) entirely.
+     **Security:** Web filtering and IPS are enabled.
+* **Core Switch Configuration**
+  * **VLAN Tagging:** All uplink ports (to Firewall/Router and APs) are configured as Trunk Ports carrying VLANs 10, 20, 30, 99, 100.
+  * **Access Ports:** Ports are statically assigned to the required VLAN:
+    * PCs ports: Access VLAN 10
+    * POS ports: Access VLAN 20
+    * PoE: Enabled on ports connecting to APs and potentially VoIP phones.
+**Wireless Access Point Configuration**
+  * **SSID Mapping:**
+      * **Trendy-Data** $\rightarrow$ $\text{ VLAN 10}$ ($\text{WPA2-Enterprise}$ authentication via $\text{DC}$-Server)
+      * **Trendy-WLAN** $\rightarrow$ $\text{VLAN 99}$ ($\text{WPA2-PSK}$ for employee mobile)
+      * **Trendy-Guest** $\rightarrow$ $\text{VLAN 100}$ ($\text{Captive Portal}$ enabled)
+### 5. Management & Security
 * **INFRA_MGMT VLAN 70)**
   * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
   * Purpose: Restricted access for IT staff only
@@ -78,7 +95,12 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
   * HSRP for router redundancy
   * LACP trunk between core switches for loop prevention
   * Guest VLAN isolated via WLC with Internet-only access
-
+### 5.1 Secure Credential Storage
+The method used to securely store all administrative login credentials (Firewall, Switch, $\text{APs}$, Server Admin accounts, $\text{ERP}$ passwords) is:
+* **Method:** A centralized, business-grade, encrypted *Password Manager* (e.g., Bitwarden Teams or 1Password Business) is implemented.
+* **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with $\text{MFA}$ (Multi-Factor Authentication).
+* **Repository:** The actual passwords are not stored in the GitHub documentation repository. Only this methodology and the necessary unprivileged user account names are documented.
+* **Principle:** Credentials are encrypted in transit and at rest using strong standards like $\text{AES-256}$ and are only decrypted locally on authorized administrator workstations.
 **IP convention for DCHP/DNS**
 * .1 = HSRP/VRRP virtual gateway
 * .2 = R1 subinterface
