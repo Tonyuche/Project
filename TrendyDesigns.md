@@ -20,7 +20,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 
 ### 1. Network Topology
 
-### 1.1 Physical Topology
+#### 1.1 Physical Topology
 <img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
 * **Focus:** A centralized, rack-mounted approach for core equipment with structured cabling to endpoints.
 * **Core Equipment Location:** A dedicated, locked server closet or data cabinet is recommended for the Firewall/Router, Managed Switch, and Server.
@@ -28,16 +28,16 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 * **Endpoints:**
   *  PCs and POS devices are wired for maximum reliability and speed.
   *  Wireless Access Points (APs) are ceiling-mounted and PoE-powered from the switch to provide office-wide $\text{Wi-Fi}$ coverage.
-### 1.2 Logical Topology
+#### 1.2 Logical Topology
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/31c1eaa8-8701-4408-bc89-44aaae9f31b8" />
 
-### Network Topology Summary ###
+#### 1.3 Network Topology Summary ###
  * Two routers (R1, R2) each connected redundantly to two core switches (SW1, SW2).
  * SW1 <-> SW2: 2x parallel links aggregated with LACP (Port-Channel) to avoid STP flapping.
  * R1 and R2 present router-on-a-stick subinterfaces (802.1Q trunk) for VLANs.
  * HSRP for default-gateway high-availability across VLANs.
 ### 2. Network Devices and Servers/Services
-### 2.1 Core Network Devices
+#### 2.1 Core Network Devices
 |**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
 |---|---|---|---|---|
 |R1 / R2|	Cisco ISR Router|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
@@ -45,7 +45,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP0 and AP1, guest VLAN isolated|
 |AP0 / AP1	|Cisco Lightweight AP|	Wireless access	|1x Gig uplink	|AP0 → Sales floor, AP1 → Guest/Production coverage|
 
-### 2.2 Server Infrastructure
+#### 2.2 Server Infrastructure
 |Server	|Hostname	|Role	|VLAN	|IP Address|
 |---|---|---|---|---|
 |DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (30)	|192.168.30.10|
@@ -95,7 +95,7 @@ The full configuration files will be stored securely, but key configurations are
   * HSRP for router redundancy
   * LACP trunk between core switches for loop prevention
   * Guest VLAN isolated via WLC with Internet-only access
-### 5.1 Secure Credential Storage
+#### 5.1 Secure Credential Storage
 The method used to securely store all administrative login credentials (Firewall, Switch, $\text{APs}$, Server Admin accounts, $\text{ERP}$ passwords) is:
 * **Method:** A centralized, business-grade, encrypted *Password Manager* (e.g., Bitwarden Teams or 1Password Business) is implemented.
 * **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with $\text{MFA}$ (Multi-Factor Authentication).
