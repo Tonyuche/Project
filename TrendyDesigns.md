@@ -88,7 +88,7 @@ The full configuration files will be stored securely, but key configurations are
       * **Trendy-WLAN** $\rightarrow$ $\text{VLAN 99}$ ($\text{WPA2-PSK}$ for employee mobile)
       * **Trendy-Guest** $\rightarrow$ $\text{VLAN 90}$ ($\text{Captive Portal}$ enabled)
 ### 5. Management & Security
-* **INFRA_MGMT VLAN 70)**
+* **INFRA_MGMT (VLAN 70)**
   * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
   * Purpose: Restricted access for IT staff only
 * **Security Features**
