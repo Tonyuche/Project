@@ -57,15 +57,26 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |PROD_FLOOR|60 |192.168.60.0/24 |192.168.60.1 |.100-.200 |PCs:31-32| Production devices |
 |INFRA_MGMT|70 |192.168.70.0/24 |192.168.70.1 |no DHCP | |Management SVIs, restricted access|
 |SERVERS|80 |192.168.80.0/24 |192.168.80.1 |static | |App/DB/Infrastructure VMs|
-|DMZ (Optional, will apply if we host it internally)|85|192.168.85.0/24| 192.168.85.1| static|Public-facing web/reverse-proxy (If we host the webserver internally)|
+|DMZ (Optional, will apply if we host it internally)|85|192.168.85.0/24| 192.168.85.1| static| |Public-facing web/reverse-proxy (If we host the webserver internally)|
+|Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC:33| Restricted VLAN|
 |GUEST|90 |192.168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
-|BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none |Native/unused VLAN|
+|BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
+### Management & Security
+* **INFRA_MGMT VLAN 70)**
+  * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
+  * Purpose: Restricted access for IT staff only
+* **Security Features**
+  * ACLs applied to POS VLANs (only allowed to reach Inventory Server + Internet)
+  * HSRP for router redundancy
+  * LACP trunk between core switches for loop prevention
+  * Guest VLAN isolated via WLC with Internet-only access
+
 **IP convention for DCHP/DNS**
 * .1 = HSRP/VRRP virtual gateway
 * .2 = R1 subinterface
 * .3 = R2 subinterface
-* .10 - .19 = servers/infrastructure reservations
-
+* .10 - .19 = Reserved for servers/infrastructure reservations
+* .100–.200 → DHCP pool for clients
 
 
 
