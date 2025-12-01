@@ -55,7 +55,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (30)|192.168.30.30|
 
 ### 3 Addressing Documentation
-|**Department**|**VLAN ID **|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
+|**Department**|**VLAN ID**|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
 |----|----|----|----|---|----|---|
 |SALES_CS |10 |192.168.10.0/24| 192.168.10.1|.100-.200|PCs: 18-20, POS: 3 units| Sales & customer service,POS VLANS nested under Sales for cashier terminals|
 |WAREHOUSE |20|192.168.20.0/24 |192.168.20.1 |.100-.200 |PCs: 29-30|Inventory & Warehouse|
@@ -86,7 +86,7 @@ The full configuration files will be stored securely, but key configurations are
   * **SSID Mapping:**
       * **Trendy-Data** $\rightarrow$ $\text{ VLAN 10}$ ($\text{WPA2-Enterprise}$ authentication via $\text{DC}$-Server)
       * **Trendy-WLAN** $\rightarrow$ $\text{VLAN 99}$ ($\text{WPA2-PSK}$ for employee mobile)
-      * **Trendy-Guest** $\rightarrow$ $\text{VLAN 100}$ ($\text{Captive Portal}$ enabled)
+      * **Trendy-Guest** $\rightarrow$ $\text{VLAN 90}$ ($\text{Captive Portal}$ enabled)
 ### 5. Management & Security
 * **INFRA_MGMT VLAN 70)**
   * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
@@ -102,6 +102,7 @@ The method used to securely store all administrative login credentials (Firewall
 * **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with $\text{MFA}$ (Multi-Factor Authentication).
 * **Repository:** The actual passwords are not stored in the GitHub documentation repository. Only this methodology and the necessary unprivileged user account names are documented.
 * **Principle:** Credentials are encrypted in transit and at rest using strong standards like $\text{AES-256}$ and are only decrypted locally on authorized administrator workstations.
+
 **IP convention for DCHP/DNS**
 * .1 = HSRP/VRRP virtual gateway
 * .2 = R1 subinterface
