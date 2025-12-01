@@ -80,7 +80,7 @@ The full configuration files will be stored securely, but key configurations are
   * **VLAN Tagging:** All uplink ports (to Firewall/Router and APs) are configured as Trunk Ports carrying VLANs 10, 20, 30, 99, 100.
   * **Access Ports:** Ports are statically assigned to the required VLAN:
     * PCs ports: Access VLAN 10
-    * POS ports: Access VLAN 20
+    * POS ports: Access VLAN 10
     * PoE: Enabled on ports connecting to APs and potentially VoIP phones.
 **Wireless Access Point Configuration**
   * **SSID Mapping:**
