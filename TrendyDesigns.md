@@ -24,13 +24,13 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 ###  Logical Topology
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/31c1eaa8-8701-4408-bc89-44aaae9f31b8" />
 
-## Network Topology Summary ##
+### Network Topology Summary ###
  * Two routers (R1, R2) each connected redundantly to two core switches (SW1, SW2).
  * SW1 <-> SW2: 2x parallel links aggregated with LACP (Port-Channel) to avoid STP flapping.
  * R1 and R2 present router-on-a-stick subinterfaces (802.1Q trunk) for VLANs.
  * HSRP for default-gateway high-availability across VLANs.
 
-## VLAN & Addressing Plan
+### VLAN & Addressing Plan
 |**VLAN ID**|**Name **|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Purpose**|
 |----|----|----|----|---|----|
 |10 |SALES_CS |192.168.10.0/24| 192.168.10.1|.100-.200| Sales & customer service|
@@ -45,6 +45,21 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |90 |GUEST |192.168.90.0/24 |192.168.90.1|.100-.200| Internet-only guests|
 |999 |BLACKHOLE |192.168.199.0/24 |192.168.199.1 |none |Native/unused VLAN|
 
+### Core Network Devices
+|**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
+|---|---|---|---|---|
+|R1 / R2|	Cisco ISR Router|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
+|SW-A / SW-B	|Cisco Catalyst 2960|	Core switches|	24x FastEthernet, 2x Gig uplinks	|LACP trunk between SW-A and SW-B, VLAN trunking enabled|
+|WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP0 and AP1, guest VLAN isolated|
+|AP0 / AP1	|Cisco Lightweight AP|	Wireless access	|1x Gig uplink	|AP0 → Sales floor, AP1 → Guest/Production coverage|
+
+### Server Infrastructure
+|Server	|Hostname	|Role	|VLAN	|IP Address|
+|---|---|---|---|---|
+|DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (30)	|192.168.30.10|
+|DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (30)	|192.168.30.11|
+|FileSrv01	|File Server	|Shared storage	|Servers VLAN (30)|	192.168.30.20|
+|InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (30)|192.168.30.30|
 **IP convention for DCHP/DNS**
 * .1 = HSRP/VRRP virtual gateway
 * .2 = R1 subinterface
