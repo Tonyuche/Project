@@ -30,21 +30,6 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
  * R1 and R2 present router-on-a-stick subinterfaces (802.1Q trunk) for VLANs.
  * HSRP for default-gateway high-availability across VLANs.
 
-### VLAN & Addressing Plan
-|**VLAN ID**|**Name **|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Purpose**|
-|----|----|----|----|---|----|
-|10 |SALES_CS |192.168.10.0/24| 192.168.10.1|.100-.200| Sales & customer service|
-|20 |WAREHOUSE |192.168.20.0/24 |192.168.20.1 |.100-.200 |Inventory & Warehouse|
-|30 |HR_MGMT |192.168.30.0/24 |192.168.30.1| no DHCP |HR &management(sensitive)|
-|40 |IT |192.168.40.0/24 |192.168.40.1 |.100-.200  |IT workstations /admin |
-|50 |MARKETING_ECOM |192.168.50.0/24 |192.168.50.1|.100-.200 |Marketing & ecommerce|
-|60 |PROD_FLOOR |192.168.60.0/24 |192.168.60.1 |.100-.200 | Production devices |
-| 70 | INFRA_MGMT |192.168.70.0/24 |192.168.70.1 |no DHCP |Management SVIs, restricted access|
-|80 |SERVERS |192.168.80.0/24 |192.168.80.1 |static |App/DB/Infrastructure VMs|
-|85 |DMZ (Optional, will apply if we host it internally)|192.168.85.0/24| 192.168.85.1| static|Public-facing web/reverse-proxy (If we host the webserver internally)|
-|90 |GUEST |192.168.90.0/24 |192.168.90.1|.100-.200| Internet-only guests|
-|999 |BLACKHOLE |192.168.199.0/24 |192.168.199.1 |none |Native/unused VLAN|
-
 ### Core Network Devices
 |**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
 |---|---|---|---|---|
@@ -60,6 +45,21 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 |DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (30)	|192.168.30.11|
 |FileSrv01	|File Server	|Shared storage	|Servers VLAN (30)|	192.168.30.20|
 |InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (30)|192.168.30.30|
+
+### Departmental Endpoints
+|**Department**|**VLAN ID **|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
+|----|----|----|----|---|----|---|
+|SALES_CS |10 |192.168.10.0/24| 192.168.10.1|.100-.200|PCs:18-20, POS: 3 units| Sales & customer service,POS VLANS nested under Sales for cashier terminals|
+|WAREHOUSE |20|192.168.20.0/24 |192.168.20.1 |.100-.200 |PCs:29-30|Inventory & Warehouse|
+|HR_MGMT|30 |192.168.30.0/24 |192.168.30.1| no DHCP |PCs:24-25|HR &management(sensitive)|
+|IT |40|192.168.40.0/24 |192.168.40.1 |.100-.200  |PCs:26-27|IT workstations /admin |
+|MARKETING_ECOM |50|192.168.50.0/24 |192.168.50.1|.100-.200 |PCs:23-24|Marketing & ecommerce|
+|PROD_FLOOR|60 |192.168.60.0/24 |192.168.60.1 |.100-.200 |PCs:31-32| Production devices |
+|INFRA_MGMT|70 |192.168.70.0/24 |192.168.70.1 |no DHCP | |Management SVIs, restricted access|
+|SERVERS|80 |192.168.80.0/24 |192.168.80.1 |static | |App/DB/Infrastructure VMs|
+|DMZ (Optional, will apply if we host it internally)|85|192.168.85.0/24| 192.168.85.1| static|Public-facing web/reverse-proxy (If we host the webserver internally)|
+|GUEST|90 |192.168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
+|BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none |Native/unused VLAN|
 **IP convention for DCHP/DNS**
 * .1 = HSRP/VRRP virtual gateway
 * .2 = R1 subinterface
