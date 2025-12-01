@@ -1,7 +1,7 @@
 <div align="center"> 
   
 # Network Documentation
-## Trendy Designs
+## Trendy Threads
 245 Smith Avenue, Winnipeg,   
 HR - 2046678234     
 info@trendydesigns.ca
