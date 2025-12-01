@@ -57,16 +57,16 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 ### 3 Addressing Documentation
 |**Department**|**VLAN ID **|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
 |----|----|----|----|---|----|---|
-|SALES_CS |10 |192.168.10.0/24| 192.168.10.1|.100-.200|PCs:18-20, POS: 3 units| Sales & customer service,POS VLANS nested under Sales for cashier terminals|
-|WAREHOUSE |20|192.168.20.0/24 |192.168.20.1 |.100-.200 |PCs:29-30|Inventory & Warehouse|
-|HR_MGMT|30 |192.168.30.0/24 |192.168.30.1| no DHCP |PCs:24-25|HR &management(sensitive)|
-|IT |40|192.168.40.0/24 |192.168.40.1 |.100-.200  |PCs:26-27|IT workstations /admin |
-|MARKETING_ECOM |50|192.168.50.0/24 |192.168.50.1|.100-.200 |PCs:23-24|Marketing & ecommerce|
-|PROD_FLOOR|60 |192.168.60.0/24 |192.168.60.1 |.100-.200 |PCs:31-32| Production devices |
+|SALES_CS |10 |192.168.10.0/24| 192.168.10.1|.100-.200|PCs: 18-20, POS: 3 units| Sales & customer service,POS VLANS nested under Sales for cashier terminals|
+|WAREHOUSE |20|192.168.20.0/24 |192.168.20.1 |.100-.200 |PCs: 29-30|Inventory & Warehouse|
+|HR_MGMT|30 |192.168.30.0/24 |192.168.30.1| no DHCP |PCs: 24-25|HR &management(sensitive)|
+|IT |40|192.168.40.0/24 |192.168.40.1 |.100-.200  |PCs: 26-27|IT workstations /admin |
+|MARKETING_ECOM |50|192.168.50.0/24 |192.168.50.1|.100-.200 |PCs: 23-24|Marketing & ecommerce|
+|PROD_FLOOR|60 |192.168.60.0/24 |192.168.60.1 |.100-.200 |PCs: 31-32| Production devices |
 |INFRA_MGMT|70 |192.168.70.0/24 |192.168.70.1 |no DHCP | |Management SVIs, restricted access|
 |SERVERS|80 |192.168.80.0/24 |192.168.80.1 |static | |App/DB/Infrastructure VMs|
 |DMZ (Optional, will apply if we host it internally)|85|192.168.85.0/24| 192.168.85.1| static| |Public-facing web/reverse-proxy (If we host the webserver internally)|
-|Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC:33| Restricted VLAN|
+|Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC: 33| Restricted VLAN|
 |GUEST|90 |192.168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
 |BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
 
