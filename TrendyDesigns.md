@@ -111,6 +111,87 @@ The method used to securely store all administrative login credentials (Firewall
 * .10 - .19 = Reserved for servers/infrastructure reservations
 * .100–.200 → DHCP pool for clients
 
+### 6. Organizational Structure, Users & Permissions – Day 1 Deliverable
+#### 6.1. Organizational Unit (OU) Structure
+|**Domain**|**OUs**|**Sub-OUs**|
+|---|---|---|
+|Margielos.local|Sales_and_CustomerService|SalesFloor, CustomerServiceDesk|
+|  |Inventory_and_Warehouse|InventoryControl, WarehouseOperations|
+|   |Management_and_HR|Management, HumanResources|
+|  |IT_Department|ITSupport, ITAdministration|
+|  |Marketing_and_Ecommerce |DigitalMarketing, EcommerceManagement|
+|  |Production|DesignTeam, ProductionFloor|
+#### 6.2 User List – Names, JOB TITLEs, Emails
+##### Sales & Customer Service (3 Users)
+|**NAME**|**JOB TITLE**|**EMAIL**|
+|---|----|----|
+|Barry Allen|Sales Representative|barry.allen@margielos.com|
+|Kara Danvers|Sales Associate|kara.danvers@margielos.com|
+|Cisco Ramon|Customer Service Agent|cisco.ramon@margielos.com|
+##### Inventory & Warehouse (2 Users)
+|**NAME**|**JOB TITLE**|**EMAIL**|
+|---|----|----|
+|Winn Schott|Inventory Controller|winn.schott@margielos.com|
+|James Olsen|Warehouse Technician|james.olsen@margielos.com|
+##### Management & HR (2 Users)
+|**NAME**|**JOB TITLE**|**EMAIL**|
+|---|---|---|
+|Oliver Queen|Operations Manager|oliver.queen@margielos.com|
+|Laurel Lance|HR Specialist|laurel.lance@margielos.com|
+##### IT Department (2 Users)
+|**NAME**|**JOB TITLE**|**EMAIL**|
+|----|---|---|
+|Ray Palmer|IT Support Technician|ray.palmer@margielos.com|
+|Gideon AI|IT Administrator|it.admin@margielos.com|
+##### Marketing & E-commerce (2 Users)
+|**NAME**|**JOB TITLE**|**EMAIL**|
+|----|---|----|
+|Felicity Smoak|Digital Marketing Coordinator|felicity.smoak@margielos.com|
+|Iris West|E-commerce Manager|iris.west@margielos.com|
+##### Production (2 Users)
+|**NAME**|**JOB TITLE**|**EMAIL**|
+|----|----|-----|
+|Nia Nal|Product Designer|nia.nal@margielos.com|
+|Jefferson Pierce|Production Worker|jefferson.pierce@margielos.com|
+#### 6.3 UserNAME & EMAIL Naming Convention
+|**Rule**|**Format**|**Example**|
+|----|----|----|
+|Standard Users|firstNAME.lastNAME|john.doe@margielos.com|
+|IT Admin|Special account|it.admin@margielos.com|
+#### 6.4 Required Security Groups
+Security Group
+Purpose
+SalesUsers
+Access to Sales shared data & sales applications
+InventoryUsers
+Access to inventory systems & databases
+HRConfidential
+Restricted HR files & private employee data
+ProductionUsers
+Access to production-related designs & documents
+ITAdmins
+Full access for administration and IT operations
+MarketingUsers
+Access to marketing assets & digital materials
+5. File Shares & Permission Structure
+File Share NAME
+Group with Access
+Purpose
+HRConfidential
+HRConfidential
+Secure HR records and documents
+SalesData
+SalesUsers
+Sales reports, customer info, product data
+InventoryDB
+InventoryUsers
+Inventory database and stock files
+ProductionDesigns
+ProductionUsers
+Design files and production workflows
+MarketingAssets
+MarketingUsers
+Graphics, campaigns, branding files
 
 
 
