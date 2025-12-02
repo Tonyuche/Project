@@ -128,39 +128,39 @@ The method used to securely store all administrative login credentials (Firewall
 ##### Sales & Customer Service (3 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |---|----|----|
-|Barry Allen|Sales Representative|barry.allen@margielos.com|
-|Kara Danvers|Sales Associate|kara.danvers@margielos.com|
-|Cisco Ramon|Customer Service Agent|cisco.ramon@margielos.com|
+|Barry Allen|Sales Representative|barry.allen@margielos.uk|
+|Kara Danvers|Sales Associate|kara.danvers@margielos.uk|
+|Cisco Ramon|Customer Service Agent|cisco.ramon@margielos.uk|
 ##### Inventory & Warehouse (2 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |---|----|----|
-|Winn Schott|Inventory Controller|winn.schott@margielos.com|
-|James Olsen|Warehouse Technician|james.olsen@margielos.com|
+|Winn Schott|Inventory Controller|winn.schott@margielos.uk|
+|James Olsen|Warehouse Technician|james.olsen@margielos.uk|
 ##### Management & HR (2 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |---|---|---|
-|Oliver Queen|Operations Manager|oliver.queen@margielos.com|
-|Laurel Lance|HR Specialist|laurel.lance@margielos.com|
+|Oliver Queen|Operations Manager|oliver.queen@margielos.|uk
+|Laurel Lance|HR Specialist|laurel.lance@margielos.uk|
 ##### IT Department (2 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |----|---|---|
-|Ray Palmer|IT Support Technician|ray.palmer@margielos.com|
-|Gideon AI|IT Administrator|it.admin@margielos.com|
+|Ray Palmer|IT Support Technician|ray.palmer@margielos.uk|
+|Gideon AI|IT Administrator|it.admin@margielos.uk|
 ##### Marketing & E-commerce (2 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |----|---|----|
-|Felicity Smoak|Digital Marketing Coordinator|felicity.smoak@margielos.com|
-|Iris West|E-commerce Manager|iris.west@margielos.com|
+|Felicity Smoak|Digital Marketing Coordinator|felicity.smoak@margielos.uk|
+|Iris West|E-commerce Manager|iris.west@margielos.uk|
 ##### Production (2 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |----|----|-----|
-|Nia Nal|Product Designer|nia.nal@margielos.com|
-|Jefferson Pierce|Production Worker|jefferson.pierce@margielos.com|
+|Nia Nal|Product Designer|nia.nal@margielos.uk|
+|Jefferson Pierce|Production Worker|jefferson.pierce@margielos.uk|
 #### 6.3 UserNAME & EMAIL Naming Convention
 |**Rule**|**Format**|**Example**|
 |----|----|----|
-|Standard Users|firstNAME.lastNAME|john.doe@margielos.com|
-|IT Admin|Special account|it.admin@margielos.com|
+|Standard Users|firstNAME.lastNAME|john.doe@margielos.uk|
+|IT Admin|Special account|it.admin@margielos.uk|
 #### 6.4 Required Security Groups
 |**Security Group**|**Purpose**|
 |----|----|
