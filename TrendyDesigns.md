@@ -10,8 +10,8 @@ info@margielosdesigns.uk
 </div>
 
 
-**Margielos Designs** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.
-Margielos Designs currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
+**Margielos Designs** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
+ Margielos Designs currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
 
 <div align="center">
   
