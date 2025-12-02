@@ -4,14 +4,14 @@
 ## Margielos Designs
 245 Smith Avenue, Winnipeg,   
 HR - 2046678234     
-info@trendythreads.ca
+info@margielosdesigns.uk
   
 
 </div>
 
 
 **Margielos Designs** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.
-Trendy Designs currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
+Margielos Designs currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
 
 <div align="center">
   
