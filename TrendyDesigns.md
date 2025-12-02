@@ -22,6 +22,7 @@ Trendy Designs currently has a total of 25 employees who carry out their daily w
 
 #### 1.1 Physical Topology
 <img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
+
 * **Focus:** A centralized, rack-mounted approach for core equipment with structured cabling to endpoints.
 * **Core Equipment Location:** A dedicated, locked server closet or data cabinet is recommended for the Firewall/Router, Managed Switch, and Server.
 * **Wiring:** All permanent devices (PCs, POS terminals, Printers, Access Points) must be connected using **Cat6 Ethernet cable** running through a Patch Panel in the closet, connecting to the Managed Switch.
