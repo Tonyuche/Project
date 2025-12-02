@@ -1,7 +1,7 @@
 <div align="center"> 
   
 # Network Documentation
-## Trendy Threads
+## Margielos Designs
 245 Smith Avenue, Winnipeg,   
 HR - 2046678234     
 info@trendythreads.ca
@@ -10,7 +10,7 @@ info@trendythreads.ca
 </div>
 
 
-**Trendy Designs** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.
+**Margielos Designs** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.
 Trendy Designs currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
 
 <div align="center">
@@ -139,7 +139,7 @@ The method used to securely store all administrative login credentials (Firewall
 ##### Management & HR (2 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |---|---|---|
-|Oliver Queen|Operations Manager|oliver.queen@margielos.|uk
+|Oliver Queen|Operations Manager|oliver.queen@margielos.uk|
 |Laurel Lance|HR Specialist|laurel.lance@margielos.uk|
 ##### IT Department (2 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
