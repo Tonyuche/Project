@@ -159,39 +159,22 @@ The method used to securely store all administrative login credentials (Firewall
 |Standard Users|firstNAME.lastNAME|john.doe@margielos.com|
 |IT Admin|Special account|it.admin@margielos.com|
 #### 6.4 Required Security Groups
-Security Group
-Purpose
-SalesUsers
-Access to Sales shared data & sales applications
-InventoryUsers
-Access to inventory systems & databases
-HRConfidential
-Restricted HR files & private employee data
-ProductionUsers
-Access to production-related designs & documents
-ITAdmins
-Full access for administration and IT operations
-MarketingUsers
-Access to marketing assets & digital materials
-5. File Shares & Permission Structure
-File Share NAME
-Group with Access
-Purpose
-HRConfidential
-HRConfidential
-Secure HR records and documents
-SalesData
-SalesUsers
-Sales reports, customer info, product data
-InventoryDB
-InventoryUsers
-Inventory database and stock files
-ProductionDesigns
-ProductionUsers
-Design files and production workflows
-MarketingAssets
-MarketingUsers
-Graphics, campaigns, branding files
+|**Security Group**|**Purpose**|
+|----|----|
+|SalesUsers|Access to Sales shared data & sales applications|
+|InventoryUsers|Access to inventory systems & databases|
+|HRConfidential|Restricted HR files & private employee data|
+|ProductionUsers|Access to production-related designs & documents|
+|ITAdmins|Full access for administration and IT operations|
+|MarketingUsers|Access to marketing assets & digital materials|
+#### 6.5 File Shares & Permission Structure
+|**File Share NAME**|**Group with Access**  |**Purpose**|
+|----|----|----|
+|HRConfidential|HRConfidential|Secure HR records and documents|
+|SalesData|SalesUsers|Sales reports, customer info, product data|
+|InventoryDB|InventoryUsers|Inventory database and stock files|
+|ProductionDesigns|ProductionUsers|Design files and production workflows|
+|MarketingAssets|MarketingUsers|Graphics, campaigns, branding files|
 
 
 
