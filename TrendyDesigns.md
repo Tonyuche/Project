@@ -54,8 +54,8 @@ info@margielos.uk
 |---|---|---|---|---|
 |DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (80)	|192.168.80.2|
 |DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (80)	|192.168.80.3|
-|FileSrv01	|File Server	|Shared storage	|Servers VLAN (30)|	192.168.30.20|
-|InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (30)|192.168.30.30|
+|FileSrv01	|File Server	|Shared storage	|Servers VLAN (80)|	192.168.80.20|
+|InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (80)|192.168.80.30|
 |S1 | 
 
 ### 3 Addressing Documentation
@@ -78,10 +78,10 @@ info@margielos.uk
 The full configuration files will be stored securely, but key configurations are summarized here:
 * **Firewall/Router Configuration**
   * **Default Deny:** The firewall is configured to block all incoming traffic (WAN to LAN) by default.
-  * **Inter-VLAN Routing:** Rules are applied to block VLAN 20 (POS) and VLAN 100(Guest) from accessing VLAN 30 (Servers) entirely.
+  * **Inter-VLAN Routing:** Rules are applied to block VLAN 20 (POS) and VLAN 100(Guest) from accessing VLAN 80 (Servers) entirely.
      **Security:** Web filtering and IPS are enabled.
 * **Core Switch Configuration**
-  * **VLAN Tagging:** All uplink ports (to Firewall/Router and APs) are configured as Trunk Ports carrying VLANs 10, 20, 30, 99, 100.
+  * **VLAN Tagging:** All uplink ports (to Firewall/Router and APs) are configured as Trunk Ports carrying VLANs 10, 20, 80, 99, 100.
   * **Access Ports:** Ports are statically assigned to the required VLAN:
     * PCs ports: Access VLAN 10
     * POS ports: Access VLAN 10
