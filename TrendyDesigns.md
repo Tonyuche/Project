@@ -1,17 +1,17 @@
 <div align="center"> 
   
 # Network Documentation
-## Margielos Designs
+## Margielos Project
 245 Smith Avenue, Winnipeg,   
 HR - 2046678234     
-info@margielosdesigns.uk
+info@margielos.uk
   
 
 </div>
 
 
-**Margielos Designs** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
- Margielos Designs currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
+**Margielos Project** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
+ Margielos Project currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
 
 <div align="center">
   
@@ -47,7 +47,7 @@ info@margielosdesigns.uk
 |R1 / R2|	Cisco ISR Router (2900 & 4300)|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
 |SW-A / SW-B	|Cisco Catalyst 2960|	Core switches|	24x FastEthernet, 2x Gig uplinks	|LACP trunk between SW-A and SW-B, VLAN trunking enabled|
 |WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP0 and AP1, guest VLAN isolated|
-|AP0 / AP1	|Cisco Lightweight AP|	Wireless access	|1x Gig uplink	|AP0 → Sales floor, AP1 → Guest/Production coverage|
+|AP1 / AP2	|Cisco Lightweight AP|	Wireless access	|1x Gig uplink	|AP1 → Sales floor, AP2 → Guest/Production coverage|
 
 #### 2.2 Server Infrastructure
 |Server	|Hostname	|Role	|VLAN	|IP Address|
