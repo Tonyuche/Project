@@ -46,8 +46,8 @@ info@margielos.uk
 |---|---|---|---|---|
 |R1 / R2|	Cisco ISR Router (2900 & 4300)|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
 |SW-A / SW-B	|Cisco Catalyst 2960|	Core switches|	24x FastEthernet, 2x Gig uplinks	|LACP trunk between SW-A and SW-B, VLAN trunking enabled|
-|WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP0 and AP1, guest VLAN isolated|
-|AP1 / AP2	|Cisco Lightweight AP|	Wireless access	|1x Gig uplink	|AP1 → Sales floor, AP2 → Guest/Production coverage|
+|WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP1 and AP2, guest VLAN isolated|
+|AP1 / AP2	|tp-link AP|	Wireless access	|1x Gig uplink	|AP1 → Sales floor, AP2 → Guest/Production coverage|
 
 #### 2.2 Server Infrastructure
 |Server	|Hostname	|Role	|VLAN	|IP Address|
@@ -55,8 +55,7 @@ info@margielos.uk
 |DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (80)	|192.168.80.2|
 |DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (80)	|192.168.80.3|
 |FileSrv01	|File Server	|Shared storage	|Servers VLAN (80)|	192.168.80.20|
-|InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (80)|192.168.80.30|
-|S1 | 
+|InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (80)|192.168.80.30| 
 
 ### 3 Addressing Documentation
 |**Department**|**VLAN ID**|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
