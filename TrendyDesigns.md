@@ -1,7 +1,7 @@
 <div align="center"> 
   
 # Network Documentation
-## Margielos Project
+## The Margielos Project
 245 Smith Avenue, Winnipeg,   
 HR - 2046678234     
 info@margielos.uk
