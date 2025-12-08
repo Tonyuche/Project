@@ -10,8 +10,8 @@ info@margielos.uk
 </div>
 
 
-**Margielos Project** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
- Margielos Project currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
+**Margielos Clothings** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
+ Margielos Clothings currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
 
 <div align="center">
   
