@@ -16,7 +16,7 @@ info@margielos.uk
 <div align="center">
   
 ## _By_ 
-## *Azureusers Cloud-Solutions Ltd.*
+## *Azureusers IT-Solutions Ltd.*
  ## Network Documentation
 </div>
 
