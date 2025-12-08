@@ -21,7 +21,6 @@ info@margielos.uk
 
 ### 1. Network Topology
 
-
 #### 1.1 Physical Topology
 <img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
 
