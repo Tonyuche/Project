@@ -15,7 +15,8 @@ info@margielos.uk
 
 <div align="center">
   
-## Network Documentation By *AzureCloud Solutions Ltd.*
+## By *AzureCloud Solutions Ltd.*
+ ## Network Documentation
 </div>
 
 ### 1. Network Topology
