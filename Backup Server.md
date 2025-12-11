@@ -87,4 +87,8 @@ Perform these administrative tasks for a complete setup.
   * **Time Zone:** Set the correct time zone for the server.
   * **Firewall:** Configure the Windows Firewall to allow necessary traffic (e.g., backup application ports, ICMP for monitoring, RDP).
   * **Remote Desktop (RDP):** Ensure RDP is enabled so you can manage the server remotely without using the Proxmox console.
-* **v. Storage Preparation (If Applicable)** If you have allocated additional virtual disks for backup storage (separate from the boot disk):Open Disk Management (e.g., via diskmgmt.msc).The new disk(s) should appear as Unallocated.Initialize the disk (GPT is recommended for modern systems).Create a New Simple Volume on the disk, format it with NTFS or ReFS (ReFS is often preferred for large backup volumes), and assign a drive letter (e.g., B: for Backups).
+* **v. Storage Preparation (If Applicable)** If you have allocated additional virtual disks for backup storage (separate from the boot disk):
+    * **Open Disk Management** (e.g., via diskmgmt.msc).
+    * The new disk(s) should appear as Unallocated.
+    * **Initialize** the disk (GPT is recommended for modern systems).
+    * **Create a New Simple Volume** on the disk, format it with NTFS or ReFS (ReFS is often preferred for large backup volumes), and assign a drive letter (e.g., B: for Backups).
