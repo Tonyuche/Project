@@ -92,3 +92,5 @@ Perform these administrative tasks for a complete setup.
     * The new disk(s) should appear as Unallocated.
     * **Initialize** the disk (GPT is recommended for modern systems).
     * **Create a New Simple Volume** on the disk, format it with NTFS or ReFS (ReFS is often preferred for large backup volumes), and assign a drive letter (e.g., B: for Backups).
+
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/bf0f31b9-c8f8-4c6b-b90a-4e99666bd033" />
