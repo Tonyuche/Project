@@ -38,7 +38,7 @@ The VM is configured to ensure optimal network and disk performance by leveragin
 #### 4. BKUP01 Server Properties Summary
 This table outlines the physical/virtual specifications, network configuration, and operating system details for the BKUP01 backup server.
 
-|Property|Value|Note
+|Property|Value|Note|
 |---|----|----|
 |VM Name|BKUP01|New Backup Server|
 |Hypervisor|Proxmox VE (PVE)|Host System|
@@ -64,6 +64,7 @@ The VM must be configured with a static IP address to ensure reliable connectivi
   * Right-click the network adapter and select Properties.
   * Select Internet Protocol Version 4 (TCP/IPv4) and click Properties.
   * Select Use the following IP address and enter the details:
+
 |Field|Value|
 |----|----|
 |**IP Address**|192.168.80.14|
