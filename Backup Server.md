@@ -53,41 +53,45 @@ This table outlines the physical/virtual specifications, network configuration, 
 
 #### 5. Post-Installation Configuration (BKUP01)
 Once Windows Server 2022 is installed on the BKUP01 VM and you have logged in, these are the critical steps to integrate it properly into your ict.margielos.uk domain and the SERVERS network.
-* **i Install VirtIO and Qemu Guest Agent**
+* **(i) Install VirtIO and Qemu Guest Agent**
 Before proceeding with networking, ensure the VM has the optimized drivers and communication agent installed.
   * **Open File Explorer** and navigate to the mounted VirtIO ISO drive (e.g., D: or E:).
   * **Install the **VirtIO drivers** using the installer provided on the ISO.
   * Install the **Qemu Guest Agent.** This service allows Proxmox to accurately monitor the VM's resource usage, send clean shutdown commands, and report the correct IP address in the Proxmox UI.
-* **ii Configure Static IP Addressing**
+* **(ii) Configure Static IP Addressing**
 The VM must be configured with a static IP address to ensure reliable connectivity and DNS resolution.
   * **Open Network Connections** (e.g., via ncpa.cpl).
   * Right-click the network adapter and select Properties.
   * Select Internet Protocol Version 4 (TCP/IPv4) and click Properties.
   * Select Use the following IP address and enter the details:
 
-|Field|Value|
-|----|----|
-|**IP Address**|192.168.80.14|
-|**Subnet Mask**|255.255.255.0|
-|**Default Gateway**|192.168.80.1|
-|**Preferred DNS Server**|192.168.80.11 (DC01)|
-|**Alternate DNS Server**|192.168.80.12 (DC02)|
-  * **iii Change Server Name and Join Domain**
+
+   |Field|Value|
+   |----|----|
+   |**IP Address**|192.168.80.14|
+   |**Subnet Mask**|255.255.255.0|
+   |**Default Gateway**|192.168.80.1|
+   |**Preferred DNS Server**|192.168.80.11 (DC01)|
+   |**Alternate DNS Server**|192.168.80.12 (DC02)|
+
+* **(iii) Change Server Name and Join Domain**
 This step registers the server with your domain and sets the correct hostname.
- * **Open System Properties** (e.g., via sysdm.cpl).
- * In the **Computer Name** tab, click **Change...**
- * **Computer name:** Enter**BKUP01**.
- * **Member of:** Select **Domain** and enter the domain name: **ict.margielos.uk.**.
- * Click **OK.** You will be prompted for credentials (use a domain admin account, like ict\administrator).
- * You will receive a welcome message, and the server will prompt you to **Restart** the VM.
- * After the restart, you should be able to log in using domain credentials (e.g., ICT\YourAdminUsername).
-* **iv Basic System Configuration**
+   * **Open System Properties** (e.g., via sysdm.cpl).
+   * In the **Computer Name** tab, click **Change...**
+   * **Computer name:** Enter**BKUP01**.
+   * **Member of:** Select **Domain** and enter the domain name: **ict.margielos.uk.**.
+   * Click **OK.** You will be prompted for credentials (use a domain admin account, like ict\administrator).
+   * You will receive a welcome message, and the server will prompt you to **Restart** the VM.
+   * After the restart, you should be able to log in using domain credentials (e.g., ICT\YourAdminUsername).
+
+* **(iv) Basic System Configuration**
 Perform these administrative tasks for a complete setup.
-  * **Windows Updates:** Install all necessary patches and updates.
-  * **Time Zone:** Set the correct time zone for the server.
-  * **Firewall:** Configure the Windows Firewall to allow necessary traffic (e.g., backup application ports, ICMP for monitoring, RDP).
-  * **Remote Desktop (RDP):** Ensure RDP is enabled so you can manage the server remotely without using the Proxmox console.
-* **v. Storage Preparation (If Applicable)** If you have allocated additional virtual disks for backup storage (separate from the boot disk):
+   * **Windows Updates:** Install all necessary patches and updates.
+   * **Time Zone:** Set the correct time zone for the server.
+   * **Firewall:** Configure the Windows Firewall to allow necessary traffic (e.g., backup application ports, ICMP for monitoring, RDP).
+   * **Remote Desktop (RDP):** Ensure RDP is enabled so you can manage the server remotely without using the Proxmox console.
+
+* **(v). Storage Preparation (If Applicable)** If you have allocated additional virtual disks for backup storage (separate from the boot disk):
     * **Open Disk Management** (e.g., via diskmgmt.msc).
     * The new disk(s) should appear as Unallocated.
     * **Initialize** the disk (GPT is recommended for modern systems).
