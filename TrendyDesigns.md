@@ -23,18 +23,18 @@ info@margielos.uk
 ### 1. Network Topology
 
 #### 1.1 Physical Topology
-<img width="1916" height="802" alt="image" src="https://github.com/user-attachments/assets/9bdc3fba-a208-4318-83d2-e4a07e70a425" />
+<img width="1782" height="1021" alt="image" src="https://github.com/user-attachments/assets/9420d8f8-ea48-4192-b422-a72512697896" />
 
 
 * **Focus:** A centralized, rack-mounted approach for core equipment with structured cabling to endpoints.
 * **Core Equipment Location:** A dedicated, locked server closet or data cabinet is recommended for the Firewall/Router, Managed Switch, and Server.
-* **Wiring:** All permanent devices (PCs, POS terminals, Printers, Access Points) must be connected using **Cat6 Ethernet cable** running through a Patch Panel in the closet, connecting to the Managed Switch.
+* **Wiring:** All permanent devices (PCs, Access Points) must be connected using **Cat6 Ethernet cable** running through a Patch Panel in the closet, connecting to the Managed Switch.
 * **Endpoints:**
   *  PCs and POS devices are wired for maximum reliability and speed.
   *  Wireless Access Points (APs) are ceiling-mounted and PoE-powered from the switch to provide office-wide $\text{Wi-Fi}$ coverage.
 
 #### 1.2 Logical Topology
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/31c1eaa8-8701-4408-bc89-44aaae9f31b8" />
+<img width="2165" height="1020" alt="image" src="https://github.com/user-attachments/assets/3da2e281-04ab-431f-960b-156193c4220a" />
 
 #### 1.3 Network Topology Summary ###
  * Two routers (R1, R2) each connected redundantly to two core switches (SW1, SW2).
