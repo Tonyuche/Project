@@ -11,7 +11,7 @@ info@margielos.uk
 
 
 **Margielos Clothings** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
- Margielos Clothings currently has a total of 25 employees who carry out their daily work activities using their PCs and POS machines.
+ Margielos Clothings currently has a total of 15 employees who carry out their daily work activities using their PCs.
 
 <div align="center">
   
