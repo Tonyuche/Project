@@ -311,7 +311,7 @@ The VM must be configured with a static IP address to ensure reliable connectivi
 This step registers the server with your domain and sets the correct hostname.
  * **Open System Properties** (e.g., via sysdm.cpl).
  * In the **Computer Name** tab, click **Change...**
- * **Computer name:** Enter**BKUP01**.
+ * **Computer name:** Enter  **BKUP01**.
  * **Member of:** Select **Domain** and enter the domain name: **ict.margielos.uk.**.
  * Click **OK.** You will be prompted for credentials (use a domain admin account, like ict\administrator).
  * You will receive a welcome message, and the server will prompt you to **Restart** the VM.
@@ -327,8 +327,6 @@ Perform these administrative tasks for a complete setup.
     * The new disk(s) should appear as Unallocated.
     * **Initialize** the disk (GPT is recommended for modern systems).
     * **Create a New Simple Volume** on the disk, format it with NTFS or ReFS (ReFS is often preferred for large backup volumes), and assign a drive letter (e.g., B: for Backups).
-
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/bf0f31b9-c8f8-4c6b-b90a-4e99666bd033" />
 
  ### 8. Management & Security
 * **INFRA_MGMT (VLAN 70)**
