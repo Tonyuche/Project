@@ -92,8 +92,8 @@ The full configuration files will be stored securely, but key configurations are
       * **Trendy-WLAN** ->VLAN 99 (WPA2-PSK for employee mobile)
       * **Trendy-Guest** ->VLAN 90 (Captive Portal enabled)
 
-### 6. Organizational Structure, Users & Permissions – Day 1 Deliverable
-#### 6.1. Organizational Unit (OU) Structure
+### 5. Organizational Structure, Users & Permissions – Day 1 Deliverable
+#### 5.1. Organizational Unit (OU) Structure
 |**Domain**|**OUs**|**Sub-OUs**|
 |---|---|---|
 |Margielos.local|Sales_and_CustomerService|SalesFloor, CustomerServiceDesk|
@@ -102,7 +102,7 @@ The full configuration files will be stored securely, but key configurations are
 |  |IT_Department|ITSupport, ITAdministration|
 |  |Marketing_and_Ecommerce |DigitalMarketing, EcommerceManagement|
 |  |Production|DesignTeam, ProductionFloor|
-#### 6.2 User List – Names, JOB TITLEs, Emails
+#### 5.2 User List – Names, JOB TITLEs, Emails
 ##### Sales & Customer Service (3 Users)
 |**NAME**|**JOB TITLE**|**EMAIL**|
 |---|----|----|
@@ -134,12 +134,12 @@ The full configuration files will be stored securely, but key configurations are
 |----|----|-----|
 |Nia Nal|Product Designer|nia.nal@margielos.uk|
 |Jefferson Pierce|Production Worker|jefferson.pierce@margielos.uk|
-#### 6.3 UserNAME & EMAIL Naming Convention
+#### 5.3 UserNAME & EMAIL Naming Convention
 |**Rule**|**Format**|**Example**|
 |----|----|----|
 |Standard Users|firstNAME.lastNAME|john.doe@margielos.uk|
 |IT Admin|Special account|it.admin@margielos.uk|
-#### 6.4 Required Security Groups
+#### 5.4 Required Security Groups
 |**Security Group**|**Purpose**|
 |----|----|
 |SalesUsers|Access to Sales shared data & sales applications|
@@ -148,7 +148,7 @@ The full configuration files will be stored securely, but key configurations are
 |ProductionUsers|Access to production-related designs & documents|
 |ITAdmins|Full access for administration and IT operations|
 |MarketingUsers|Access to marketing assets & digital materials|
-#### 6.5 File Shares & Permission Structure
+#### 5.5 File Shares & Permission Structure
 |**File Share NAME**|**Group with Access**  |**Purpose**|
 |----|----|----|
 |HRConfidential|HRConfidential|Secure HR records and documents|
@@ -156,9 +156,9 @@ The full configuration files will be stored securely, but key configurations are
 |InventoryDB|InventoryUsers|Inventory database and stock files|
 |ProductionDesigns|ProductionUsers|Design files and production workflows|
 |MarketingAssets|MarketingUsers|Graphics, campaigns, brandiing files|
-# 🖥️ Server & Services Lead
+### 6. Server & Services Lead
  
-## ✅ 1. Full Server List + Purpose
+#### 6.1 Full Server List + Purpose
 * **DC1 – Primary Domain Controller**  
    Handles Active Directory Domain Services (AD DS) and DNS. Central authority for authentication and directory lookups.
 * **DC2 – Secondary Domain Controller**  
@@ -176,7 +176,7 @@ The full configuration files will be stored securely, but key configurations are
 * **Backup Server**  
     Runs backup tools to snapshot and protect all major servers. Ensures disaster recovery.
  
-## ✅ 2. Roles & Features Installed
+#### 6.2 Roles & Features Installed
 *  **DC1/DC2** → Active Directory Domain Services (AD DS), DNS role  
 * **DHCP Server** → DHCP role  
 * **File Server** → File Services role  
@@ -184,7 +184,7 @@ The full configuration files will be stored securely, but key configurations are
 * **Mail Server** → Microsoft Exchange Server role  
 * **Backup Server** → Backup software (e.g., Windows Server Backup, Veeam)
 
-## ✅ 3. File Share Layout Planning
+#### 6.3 File Share Layout Planning
  
 |**Share Name**         |**Used By**           | **Purpose**                          |
 |---------------------|------------------|----------------------------------|
@@ -195,13 +195,13 @@ The full configuration files will be stored securely, but key configurations are
 | Marketing_Assets    | Marketing Team   | Store images, videos, and ads    |
 | Shared              | All Departments  | General collaboration folder     |
 
-## ✅ 4. Basic Service Dependency Map
+#### 6.4 Basic Service Dependency Map
 * **DHCP → DNS** (DHCP leases must register with DNS for name resolution)  
 * **File Server → AD Groups** (permissions tied to security groups defined by Identity Lead)  
 * **Web Server → Domain + Network** (requires DNS resolution and AD authentication)
 * **Backup Server → All Servers** (backs up DCs, File Server, Web Server, Mail Server)
 
-## ✅ 5. Department Service Requirements Overview
+#### 6.5 Department Service Requirements Overview
  
 | **Department**            | **Services Used**                          |
 |------------------------|----------------------------------------|
@@ -213,33 +213,33 @@ The full configuration files will be stored securely, but key configurations are
 | IT                     | All services (admin, support, backups) |
 | Management             | Shared folder, Email                   |
  
-## ℹ️ Additional Details
-#### 1. Web Server Choice
+#### 6.6 Additional Details
+##### 1. Web Server Choice
 We’re using **IIS (Internet Information Services)** on Windows Server.  
 * Integrates seamlessly with Active Directory.
 * Supports ASP.NET and static content.
 * Easy to manage via GUI and PowerShell.
-#### 2. File Server Choice
+##### 2. File Server Choice
 We’re using **Windows Server with File Services role**.  
 * Native NTFS + AD group integration.  
 * Supports SMB protocol for secure file sharing.  
 *Simple departmental share configuration.
  
-#### 3. Exchange Server Location
+##### 3. Exchange Server Location
 Installed on a **dedicated Windows Server**, separate from DC1/DC2.  
 * Avoids resource competition with domain controllers.
 * Improves performance and troubleshooting.
  
-#### 4. DNS & DHCP Placement
+##### 4. DNS & DHCP Placement
 * **DNS** → Installed on **both DC1 and DC2** for redundancy.  
 * **DHCP** → Installed on **DC1 only**.  
 * Ensures high availability for DNS, while DHCP remains simple to manage.
   
-#3 **BKUP01 Integration**
+### 7. **Backup Server (BKUP01) Integration**
 
   </div>
   
-#### **1. High-Level Overview**
+#### **7.1 High-Level Overview**
 This document details the configuration for integrating the new backup server, **BKUP01**, into the existing **SERVERS (VLAN 80)** network segment, which is hosted on a Proxmox VE hypervisor cluster.
 
 |Component|Description|
@@ -252,7 +252,7 @@ This document details the configuration for integrating the new backup server, *
 |**Purpose**|Dedicated Backup Server|
 
 
-#### 2. IP Addressing and VLAN Details
+#### 7.2 IP Addressing and VLAN Details
 The SERVERS network uses the $192.168.80.0/24$ subnet. The Proxmox host's bridge (vmbr0) is configured to handle traffic for VLAN 80. The new VM, BKUP01, is assigned a static IP address within this subnet.
 #### VLAN and Subnet
 * **VLAN ID:** 80
@@ -260,7 +260,7 @@ The SERVERS network uses the $192.168.80.0/24$ subnet. The Proxmox host's bridge
 * **Subnet:** 192.168.80.0/24
 * **Gateway:** 192.168.80.1
 
-#### 3. Virtualization Details
+#### 7.3 Virtualization Details
 The VM is configured to ensure optimal network and disk performance by leveraging Proxmox's paravirtualized drivers.
 
 |Setting|Value|Rationale|
@@ -270,7 +270,7 @@ The VM is configured to ensure optimal network and disk performance by leveragin
 |VLAN Tag|80|Tags traffic with the correct VLAN ID on vmbr0.|
 |SCSI Controller|VirtIO SCSI|Required for high-speed disk I/O.|
 
-#### 4. BKUP01 Server Properties Summary
+#### 7.4 BKUP01 Server Properties Summary
 This table outlines the physical/virtual specifications, network configuration, and operating system details for the BKUP01 backup server.
 
 |Property|Value|Note|
@@ -286,14 +286,14 @@ This table outlines the physical/virtual specifications, network configuration, 
 |Qemu Agent|Enabled|Allows host-guest communication for monitoring/shutdowns.|
 |BIOS Type|OVMF (UEFI) or SeaBIOS\Recommended: OVMF (Requires EFI Disk).|
 
-#### 5. Post-Installation Configuration (BKUP01)
+#### 7.5 Post-Installation Configuration (BKUP01)
 Once Windows Server 2022 is installed on the BKUP01 VM and you have logged in, these are the critical steps to integrate it properly into your ict.margielos.uk domain and the SERVERS network.
-* **i Install VirtIO and Qemu Guest Agent**
+* **(i) Install VirtIO and Qemu Guest Agent**
 Before proceeding with networking, ensure the VM has the optimized drivers and communication agent installed.
   * **Open File Explorer** and navigate to the mounted VirtIO ISO drive (e.g., D: or E:).
   * **Install the **VirtIO drivers** using the installer provided on the ISO.
   * Install the **Qemu Guest Agent.** This service allows Proxmox to accurately monitor the VM's resource usage, send clean shutdown commands, and report the correct IP address in the Proxmox UI.
-* **ii Configure Static IP Addressing**
+* **(ii) Configure Static IP Addressing**
 The VM must be configured with a static IP address to ensure reliable connectivity and DNS resolution.
   * **Open Network Connections** (e.g., via ncpa.cpl).
   * Right-click the network adapter and select Properties.
@@ -307,7 +307,7 @@ The VM must be configured with a static IP address to ensure reliable connectivi
 |**Default Gateway**|192.168.80.1|
 |**Preferred DNS Server**|192.168.80.11 (DC01)|
 |**Alternate DNS Server**|192.168.80.12 (DC02)|
-  * **iii Change Server Name and Join Domain**
+  * **(iii) Change Server Name and Join Domain**
 This step registers the server with your domain and sets the correct hostname.
  * **Open System Properties** (e.g., via sysdm.cpl).
  * In the **Computer Name** tab, click **Change...**
@@ -316,13 +316,13 @@ This step registers the server with your domain and sets the correct hostname.
  * Click **OK.** You will be prompted for credentials (use a domain admin account, like ict\administrator).
  * You will receive a welcome message, and the server will prompt you to **Restart** the VM.
  * After the restart, you should be able to log in using domain credentials (e.g., ICT\YourAdminUsername).
-* **iv Basic System Configuration**
+* **(iv) Basic System Configuration**
 Perform these administrative tasks for a complete setup.
   * **Windows Updates:** Install all necessary patches and updates.
   * **Time Zone:** Set the correct time zone for the server.
   * **Firewall:** Configure the Windows Firewall to allow necessary traffic (e.g., backup application ports, ICMP for monitoring, RDP).
   * **Remote Desktop (RDP):** Ensure RDP is enabled so you can manage the server remotely without using the Proxmox console.
-* **v. Storage Preparation (If Applicable)** If you have allocated additional virtual disks for backup storage (separate from the boot disk):
+* **(v) Storage Preparation (If Applicable)** If you have allocated additional virtual disks for backup storage (separate from the boot disk):
     * **Open Disk Management** (e.g., via diskmgmt.msc).
     * The new disk(s) should appear as Unallocated.
     * **Initialize** the disk (GPT is recommended for modern systems).
@@ -330,7 +330,7 @@ Perform these administrative tasks for a complete setup.
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/bf0f31b9-c8f8-4c6b-b90a-4e99666bd033" />
 
- ### 5. Management & Security
+ ### 8. Management & Security
 * **INFRA_MGMT (VLAN 70)**
   * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
   * Purpose: Restricted access for IT staff only
@@ -339,40 +339,31 @@ Perform these administrative tasks for a complete setup.
   * HSRP for router redundancy
   * LACP trunk between core switches for loop prevention
   * Guest VLAN isolated via WLC with Internet-only access
-#### 5.1 Secure Credential Storage
+#### 8.1 Secure Credential Storage
 The method used to securely store all administrative login credentials (Firewall, Switch, APs, Server Admin accounts, ERP passwords) is:
 * **Method:** A centralized, business-grade, encrypted *Password Manager* (e.g., Bitwarden Teams or 1Password Business) is implemented.
 * **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with MFA (Multi-Factor Authentication).
 * **Repository:** The actual passwords are not stored in the GitHub documentation repository. Only this methodology and the necessary unprivileged user account names are documented.
 * **Principle:** Credentials are encrypted in transit and at rest using strong standards like AES-256 and are only decrypted locally on authorized administrator workstations.
-
-**IP convention for DCHP/DNS**
-* .1 = HSRP/VRRP virtual gateway
-* .2 = R1 subinterface
-* .3 = R2 subinterface
-* .10 - .19 = Reserved for servers/infrastructure reservations
-* .100–.200 → DHCP pool for clients
-#### Management
+#### 8.2 Management
 - Full Control Panel access
 - No operational restrictions
 - Access to **all** shared drives:
   - I:, W:, T:, M:, E:, P:, F:, S:, C:, H:
 
-#### Human Resources
+#### 8.3 Human Resources
 - Removable storage blocked
 - Auto-lock after **8 minutes**
 - Drive: **H:** `\\DC01\HR`
 - Protected environment for confidential data
 
----
+### 9. Shared Drive Architecture
 
-## 5. Shared Drive Architecture
-
-### Folder Structure
+#### 9.1 Folder Structure
 Located on the file server (DC01):
 
 
-### Drive Mapping Table
+#### 9.2 Drive Mapping Table
 
 | Department            | Drive Letter | Path                              |
 |----------------------|-------------|-----------------------------------|
@@ -388,7 +379,7 @@ Located on the file server (DC01):
 | HR                   | H:          | \\DC01\HR                         |
 | Management           | ALL         | All shares                        |
 
-### Permissions Outcome
+#### 9.3 Permissions Outcome
 - **Department Groups:** Modify permissions to their respective shares
 - **Management:** Full Control to all department shares
 - **IT Admins:** Full Control everywhere
@@ -396,24 +387,19 @@ Located on the file server (DC01):
 
 ---
 
-## 6. Additional Security Measures
+#### 9.4 Additional Security Measures
 These solutions enhance protection beyond GPO policies:
 
-### BitLocker
-Full-disk encryption on all laptops and workstations.
+* **BitLocker**
+  Full-disk encryption on all laptops and workstations.
+* **LAPS** (Local Administrator Password Solution)
+  Unique rotating local admin passwords on every workstation.
+* **AppLocker**
+  Restricts executable, script, and installer execution to approved items only.
+* **Shadow Copies**
+  Enabled on all department shares for quick file recovery.
 
-### LAPS (Local Administrator Password Solution)
-Unique rotating local admin passwords on every workstation.
-
-### AppLocker
-Restricts executable, script, and installer execution to approved items only.
-
-### Shadow Copies
-Enabled on all department shares for quick file recovery.
-
----
-
-## 7. Final Outcome
+#### 9.5 Final Outcome
 The completed GPO deployment provides:
 
 - A **secure and segmented domain** across margielos.uk and ict.margielos.uk  
