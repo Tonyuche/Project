@@ -56,7 +56,7 @@ info@margielos.uk
 |DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (80)	|192.168.80.2|
 |DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (80)	|192.168.80.3|
 |FileSrv01	|File Server	|Shared storage	|Servers VLAN (80)|	192.168.80.20|
-|InvSrv01	|Inventory Server	|POS + Warehouse DB	|Servers VLAN (80)|192.168.80.30| 
+|InvSrv01	|Inventory Server	|Warehouse DB	|Servers VLAN (80)|192.168.80.30| 
 
 ### 3 Addressing Documentation
 |**Department**|**VLAN ID**|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
@@ -91,28 +91,6 @@ The full configuration files will be stored securely, but key configurations are
       * **Trendy-Data** ->VLAN 10 (WPA2-Enterprise authentication via DC-Server)
       * **Trendy-WLAN** ->VLAN 99 (WPA2-PSK for employee mobile)
       * **Trendy-Guest** ->VLAN 90 (Captive Portal enabled)
-### 5. Management & Security
-* **INFRA_MGMT (VLAN 70)**
-  * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
-  * Purpose: Restricted access for IT staff only
-* **Security Features**
-  * ACLs applied to POS VLANs (only allowed to reach Inventory Server + Internet)
-  * HSRP for router redundancy
-  * LACP trunk between core switches for loop prevention
-  * Guest VLAN isolated via WLC with Internet-only access
-#### 5.1 Secure Credential Storage
-The method used to securely store all administrative login credentials (Firewall, Switch, APs, Server Admin accounts, ERP passwords) is:
-* **Method:** A centralized, business-grade, encrypted *Password Manager* (e.g., Bitwarden Teams or 1Password Business) is implemented.
-* **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with MFA (Multi-Factor Authentication).
-* **Repository:** The actual passwords are not stored in the GitHub documentation repository. Only this methodology and the necessary unprivileged user account names are documented.
-* **Principle:** Credentials are encrypted in transit and at rest using strong standards like AES-256 and are only decrypted locally on authorized administrator workstations.
-
-**IP convention for DCHP/DNS**
-* .1 = HSRP/VRRP virtual gateway
-* .2 = R1 subinterface
-* .3 = R2 subinterface
-* .10 - .19 = Reserved for servers/infrastructure reservations
-* .100–.200 → DHCP pool for clients
 
 ### 6. Organizational Structure, Users & Permissions – Day 1 Deliverable
 #### 6.1. Organizational Unit (OU) Structure
@@ -177,9 +155,87 @@ The method used to securely store all administrative login credentials (Firewall
 |SalesData|SalesUsers|Sales reports, customer info, product data|
 |InventoryDB|InventoryUsers|Inventory database and stock files|
 |ProductionDesigns|ProductionUsers|Design files and production workflows|
-|MarketingAssets|MarketingUsers|Graphics, campaigns, branding files|
+|MarketingAssets|MarketingUsers|Graphics, campaigns, brandiing files|
+# 🖥️ Server & Services Lead
+ 
+## ✅ 1. Full Server List + Purpose
+* **DC1 – Primary Domain Controller**  
+   Handles Active Directory Domain Services (AD DS) and DNS. Central authority for authentication and directory lookups.
+* **DC2 – Secondary Domain Controller**  
+    Provides redundancy for AD DS and DNS. Ensures high availability if DC1 fails.
+* **DNS Server**  
+    Resolves internal hostnames to IP addresses. Critical for domain operations and service discovery.
+* **DHCP Server**  
+    Assigns IP addresses dynamically to client devices. Simplifies network management.
+* **File Server**  
+    Stores departmental files and shared resources. Backbone for collaboration.
+* **Web Server (IIS)**  
+    Hosts TrendyThreads’ demo e‑commerce site. Used by Marketing & E‑commerce.
+* **Mail Server (Exchange)**  
+    Provides internal email services for testing and communication.
+* **Backup Server**  
+    Runs backup tools to snapshot and protect all major servers. Ensures disaster recovery.
+ 
+## ✅ 2. Roles & Features Installed
+*  **DC1/DC2** → Active Directory Domain Services (AD DS), DNS role  
+* **DHCP Server** → DHCP role  
+* **File Server** → File Services role  
+* **Web Server** → IIS role  
+* **Mail Server** → Microsoft Exchange Server role  
+* **Backup Server** → Backup software (e.g., Windows Server Backup, Veeam)
+
+## ✅ 3. File Share Layout Planning
+ 
+|**Share Name**         |**Used By**           | **Purpose**                          |
+|---------------------|------------------|----------------------------------|
+| HR_Confidential     | HR Department    | Store sensitive HR documents     |
+| Sales_Data          | Sales Department | Store customer and sales records |
+| Inventory_DB        | Inventory Team   | Store stock and warehouse data   |
+| Production_Designs  | Production Team  | Store design files and blueprints|
+| Marketing_Assets    | Marketing Team   | Store images, videos, and ads    |
+| Shared              | All Departments  | General collaboration folder     |
+
+## ✅ 4. Basic Service Dependency Map
+* **DHCP → DNS** (DHCP leases must register with DNS for name resolution)  
+* **File Server → AD Groups** (permissions tied to security groups defined by Identity Lead)  
+* **Web Server → Domain + Network** (requires DNS resolution and AD authentication)
+* **Backup Server → All Servers** (backs up DCs, File Server, Web Server, Mail Server)
+
+## ✅ 5. Department Service Requirements Overview
+ 
+| **Department**            | **Services Used**                          |
+|------------------------|----------------------------------------|
+| Sales                  | Sales_Data share, Email                |
+| HR                     | HR_Confidential share, Email           |
+| Inventory & Warehouse  | Inventory_DB share                     |
+| Production             | Production_Designs share               |
+| Marketing & E‑commerce | Marketing_Assets share, Web Server     |
+| IT                     | All services (admin, support, backups) |
+| Management             | Shared folder, Email                   |
+ 
+## ℹ️ Additional Details
+#### 1. Web Server Choice
+We’re using **IIS (Internet Information Services)** on Windows Server.  
+* Integrates seamlessly with Active Directory.
+* Supports ASP.NET and static content.
+* Easy to manage via GUI and PowerShell.
+#### 2. File Server Choice
+We’re using **Windows Server with File Services role**.  
+* Native NTFS + AD group integration.  
+* Supports SMB protocol for secure file sharing.  
+*Simple departmental share configuration.
+ 
+#### 3. Exchange Server Location
+Installed on a **dedicated Windows Server**, separate from DC1/DC2.  
+* Avoids resource competition with domain controllers.
+* Improves performance and troubleshooting.
+ 
+#### 4. DNS & DHCP Placement
+* **DNS** → Installed on **both DC1 and DC2** for redundancy.  
+* **DHCP** → Installed on **DC1 only**.  
+* Ensures high availability for DNS, while DHCP remains simple to manage.
   
-# **Network Documentation: BKUP01 Integration**
+#3 **BKUP01 Integration**
 
   </div>
   
@@ -274,152 +330,100 @@ Perform these administrative tasks for a complete setup.
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/bf0f31b9-c8f8-4c6b-b90a-4e99666bd033" />
 
-# 🖥️ Server & Services Lead – Day 1 Deliverable
- 
-## ✅ 1. Full Server List + Purpose
+ ### 5. Management & Security
+* **INFRA_MGMT (VLAN 70)**
+  * Devices: PC01 (admin workstation), router/firewall interfaces, switch SVIs
+  * Purpose: Restricted access for IT staff only
+* **Security Features**
+  * ACLs applied to POS VLANs (only allowed to reach Inventory Server + Internet)
+  * HSRP for router redundancy
+  * LACP trunk between core switches for loop prevention
+  * Guest VLAN isolated via WLC with Internet-only access
+#### 5.1 Secure Credential Storage
+The method used to securely store all administrative login credentials (Firewall, Switch, APs, Server Admin accounts, ERP passwords) is:
+* **Method:** A centralized, business-grade, encrypted *Password Manager* (e.g., Bitwarden Teams or 1Password Business) is implemented.
+* **Access:** Access to the Password Manager requires a unique master password for each administrator user, combined with MFA (Multi-Factor Authentication).
+* **Repository:** The actual passwords are not stored in the GitHub documentation repository. Only this methodology and the necessary unprivileged user account names are documented.
+* **Principle:** Credentials are encrypted in transit and at rest using strong standards like AES-256 and are only decrypted locally on authorized administrator workstations.
 
-- **DC1 – Primary Domain Controller**  
+**IP convention for DCHP/DNS**
+* .1 = HSRP/VRRP virtual gateway
+* .2 = R1 subinterface
+* .3 = R2 subinterface
+* .10 - .19 = Reserved for servers/infrastructure reservations
+* .100–.200 → DHCP pool for clients
+#### Management
+- Full Control Panel access
+- No operational restrictions
+- Access to **all** shared drives:
+  - I:, W:, T:, M:, E:, P:, F:, S:, C:, H:
 
-  Handles Active Directory Domain Services (AD DS) and DNS. Central authority for authentication and directory lookups.
+#### Human Resources
+- Removable storage blocked
+- Auto-lock after **8 minutes**
+- Drive: **H:** `\\DC01\HR`
+- Protected environment for confidential data
 
-- **DC2 – Secondary Domain Controller**  
-
-  Provides redundancy for AD DS and DNS. Ensures high availability if DC1 fails.
-
-- **DNS Server**  
-
-  Resolves internal hostnames to IP addresses. Critical for domain operations and service discovery.
-
-- **DHCP Server**  
-
-  Assigns IP addresses dynamically to client devices. Simplifies network management.
-
-- **File Server**  
-
-  Stores departmental files and shared resources. Backbone for collaboration.
-
-- **Web Server (IIS)**  
-
-  Hosts TrendyThreads’ demo e‑commerce site. Used by Marketing & E‑commerce.
-
-- **Mail Server (Exchange)**  
-
-  Provides internal email services for testing and communication.
-
-- **Backup Server**  
-
-  Runs backup tools to snapshot and protect all major servers. Ensures disaster recovery.
- 
 ---
- 
-## ✅ 2. Roles & Features Installed
 
-- **DC1/DC2** → Active Directory Domain Services (AD DS), DNS role  
+## 5. Shared Drive Architecture
 
-- **DHCP Server** → DHCP role  
+### Folder Structure
+Located on the file server (DC01):
 
-- **File Server** → File Services role  
 
-- **Web Server** → IIS role  
+### Drive Mapping Table
 
-- **Mail Server** → Microsoft Exchange Server role  
+| Department            | Drive Letter | Path                              |
+|----------------------|-------------|-----------------------------------|
+| Inventory            | I:          | \\DC01\Inventory                  |
+| Warehouse            | W:          | \\DC01\Warehouse                  |
+| IT                   | T:          | \\DC01\IT                         |
+| Marketing            | M:          | \\DC01\Marketing                  |
+| E-Commerce           | E:          | \\DC01\Ecommerce                  |
+| Production Design    | P:          | \\DC01\Production_Design          |
+| Production Floor     | F:          | \\DC01\Production_Floor           |
+| Sales                | S:          | \\DC01\Sales                      |
+| Customer Service     | C:          | \\DC01\CustomerService            |
+| HR                   | H:          | \\DC01\HR                         |
+| Management           | ALL         | All shares                        |
 
-- **Backup Server** → Backup software (e.g., Windows Server Backup, Veeam)
- 
+### Permissions Outcome
+- **Department Groups:** Modify permissions to their respective shares
+- **Management:** Full Control to all department shares
+- **IT Admins:** Full Control everywhere
+- **Everyone:** Removed from share access
+
 ---
- 
-## ✅ 3. File Share Layout Planning
- 
-| Share Name          | Used By           | Purpose                          |
 
-|---------------------|------------------|----------------------------------|
+## 6. Additional Security Measures
+These solutions enhance protection beyond GPO policies:
 
-| HR_Confidential     | HR Department    | Store sensitive HR documents     |
+### BitLocker
+Full-disk encryption on all laptops and workstations.
 
-| Sales_Data          | Sales Department | Store customer and sales records |
+### LAPS (Local Administrator Password Solution)
+Unique rotating local admin passwords on every workstation.
 
-| Inventory_DB        | Inventory Team   | Store stock and warehouse data   |
+### AppLocker
+Restricts executable, script, and installer execution to approved items only.
 
-| Production_Designs  | Production Team  | Store design files and blueprints|
+### Shadow Copies
+Enabled on all department shares for quick file recovery.
 
-| Marketing_Assets    | Marketing Team   | Store images, videos, and ads    |
-
-| Shared              | All Departments  | General collaboration folder     |
- 
 ---
- 
-## ✅ 4. Basic Service Dependency Map
 
-- **DHCP → DNS** (DHCP leases must register with DNS for name resolution)  
+## 7. Final Outcome
+The completed GPO deployment provides:
 
-- **File Server → AD Groups** (permissions tied to security groups defined by Identity Lead)  
+- A **secure and segmented domain** across margielos.uk and ict.margielos.uk  
+- Strict departmental separation with mapped drives and permissions  
+- Consistent workstation security across all 2–3 workstations per department  
+- Hardened systems protected from misuse or unauthorized changes  
+- Centralized file access with reliable permission boundaries  
+- A professional, enterprise-grade configuration suitable for production  
 
-- **Web Server → Domain + Network** (requires DNS resolution and AD authentication)  
+This infrastructure supports operational efficiency, data integrity, and strong security posture across all departments at Margielos UK.
 
-- **Backup Server → All Servers** (backs up DCs, File Server, Web Server, Mail Server)
- 
----
- 
-## ✅ 5. Department Service Requirements Overview
- 
-| Department             | Services Used                          |
-
-|------------------------|----------------------------------------|
-
-| Sales                  | Sales_Data share, Email                |
-
-| HR                     | HR_Confidential share, Email           |
-
-| Inventory & Warehouse  | Inventory_DB share                     |
-
-| Production             | Production_Designs share               |
-
-| Marketing & E‑commerce | Marketing_Assets share, Web Server     |
-
-| IT                     | All services (admin, support, backups) |
-
-| Management             | Shared folder, Email                   |
- 
----
- 
-## ℹ️ Additional Details
- 
-### 1. Web Server Choice
-
-We’re using **IIS (Internet Information Services)** on Windows Server.  
-
-- Integrates seamlessly with Active Directory.  
-
-- Supports ASP.NET and static content.  
-
-- Easy to manage via GUI and PowerShell.
- 
-### 2. File Server Choice
-
-We’re using **Windows Server with File Services role**.  
-
-- Native NTFS + AD group integration.  
-
-- Supports SMB protocol for secure file sharing.  
-
-- Simple departmental share configuration.
- 
-### 3. Exchange Server Location
-
-Installed on a **dedicated Windows Server**, separate from DC1/DC2.  
-
-- Avoids resource competition with domain controllers.  
-
-- Improves performance and troubleshooting.
- 
-### 4. DNS & DHCP Placement
-
-- **DNS** → Installed on **both DC1 and DC2** for redundancy.  
-
-- **DHCP** → Installed on **DC1 only**.  
-
-- Ensures high availability for DNS, while DHCP remains simple to manage.
- 
- 
 
 
