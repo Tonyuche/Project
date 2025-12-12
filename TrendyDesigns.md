@@ -30,7 +30,7 @@ info@margielos.uk
 * **Core Equipment Location:** A dedicated, locked server closet or data cabinet is recommended for the Firewall/Router, Managed Switch, and Server.
 * **Wiring:** All permanent devices (PCs, Access Points) must be connected using **Cat6 Ethernet cable** running through a Patch Panel in the closet, connecting to the Managed Switch.
 * **Endpoints:**
-  *  PCs and POS devices are wired for maximum reliability and speed.
+  *  PCs devices are wired for maximum reliability and speed.
   *  Wireless Access Points (APs) are ceiling-mounted and PoE-powered from the switch to provide office-wide $\text{Wi-Fi}$ coverage.
 
 #### 1.2 Logical Topology
