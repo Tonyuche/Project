@@ -10,8 +10,8 @@ info@margielos.uk
 </div>
 
 
-**Margielos Atelier** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
- Margielos Atelier currently has a total of 15 employees who carry out their daily work activities using their PCs.
+**Margielos Clothings** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
+ Margielos Clothings currently has a total of 15 employees who carry out their daily work activities using their PCs.
 
 <div align="center">
   
@@ -73,24 +73,6 @@ info@margielos.uk
 |Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC: 33| Restricted VLAN|
 |GUEST|90 |192.168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
 |BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
-
-### 4. Devices Configurations (Summary)
-The full configuration files will be stored securely, but key configurations are summarized here:
-* **Firewall/Router Configuration**
-  * **Default Deny:** The firewall is configured to block all incoming traffic (WAN to LAN) by default.
-  * **Inter-VLAN Routing:** Rules are applied to block VLAN 20 (POS) and VLAN 100(Guest) from accessing VLAN 80 (Servers) entirely.
-     **Security:** Web filtering and IPS are enabled.
-* **Core Switch Configuration**
-  * **VLAN Tagging:** All uplink ports (to Firewall/Router and APs) are configured as Trunk Ports carrying VLANs 10, 20, 80, 99, 100.
-  * **Access Ports:** Ports are statically assigned to the required VLAN:
-    * PCs ports: Access VLAN 10
-    * POS ports: Access VLAN 10
-    * PoE: Enabled on ports connecting to APs and potentially VoIP phones.
-**Wireless Access Point Configuration**
-  * **SSID Mapping:**
-      * **Trendy-Data** ->VLAN 10 (WPA2-Enterprise authentication via DC-Server)
-      * **Trendy-WLAN** ->VLAN 99 (WPA2-PSK for employee mobile)
-      * **Trendy-Guest** ->VLAN 90 (Captive Portal enabled)
 
 # Architecture
 
