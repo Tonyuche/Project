@@ -71,36 +71,9 @@ info@margielos.uk
 |SERVERS|80 |192.168.80.0/24 |192.168.80.1 |static | |App/DB/Infrastructure VMs|
 |DMZ (Optional, will apply if we host it internally)|85|192.168.85.0/24| 192.168.85.1| static| |Public-facing web/reverse-proxy (If we host the webserver internally)|
 |Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC: 33| Restricted VLAN|
-|GUEST|90 |192.168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
+|GUEST|90 |19168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
 |BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
 
-# Architecture
-
-## Overview
-Margielos Atelier is built with Next.js 16 using the App Router. The project follows a conventional monorepo style with an `app` directory for UI and API routes, a `data` directory for static content, and a `public` directory for static assets.
-
-### UI Layer
-- **Root Layout** – The `app/layout.tsx` file defines metadata (title, description, base URL) and wraps pages in a basic `<html>` and `<body>` structure【897256825091222†L1-L23】. Global styles are imported via `globals.css`.
-- **Home Page** – `app/page.tsx` fetches the product list via `getProducts()` and renders a hero section and product grid【31295513849012†L108-L118】【31295513849012†L121-L144】.
-- **Product Page** – `app/products/[slug]/page.tsx` uses the dynamic route parameter to fetch product details and display them along with an “Add to bag” button【166253349575871†L36-L61】.
-- **Cart Pages** – `app/cart/page.tsx` and `app/cart/confirmation/page.tsx` render the cart UI, summary, and confirmation. The cart page uses a hook provided by the cart context to read and mutate cart state【413448586207448†L33-L38】.
-
-### State Management
-Cart state is managed through a React Context defined in `app/cart-context.tsx`. The context exposes functions to add, increment, decrement, and remove items. It stores the cart items in local state and persists them to `localStorage` so that the bag contents survive page reloads【113552009221774†L34-L57】. The context value includes derived properties `totalCount` and `totalPrice` computed from the items array.
-
-### Data Layer
-Product data lives in `data/products.ts`. It defines a `Product` type and exports an array `products` along with helper functions:
-- `getProducts()` returns the array of products.
-- `getProductBySlug(slug)` searches the products array for a matching slug and returns the product or the first product if not found【999166272045991†L52-L70】.
-
-### API Routes
-Next.js API routes in `app/api/products` expose the products as JSON. The root `route.ts` returns all products【796184619951124†L4-L7】, while the dynamic `[slug]/route.ts` returns a single product or 404 if not found【522016191816061†L4-L12】. These endpoints power the website but can also be consumed by third‑party clients.
-
-### Styling
-Styling is done via Tailwind CSS with utility classes. The project uses a restricted neutral color palette and uppercase letter spacing to reflect the avant‑garde branding. The design is mobile‑first, with responsive classes to adapt layouts on larger screens.
-
-### Assets
-Images and icons are stored in the `public` directory. Product images are external links from Pexels, stored in the product data file.
 ### 5. Organizational Structure, Users & Permissions – Day 1 Deliverable
 #### 5.1. Organizational Unit (OU) Structure
 |**Domain**|**OUs**|**Sub-OUs**|
