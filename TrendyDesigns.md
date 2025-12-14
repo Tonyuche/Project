@@ -389,49 +389,8 @@ The completed GPO deployment provides:
 - Centralized file access with reliable permission boundaries  
 - A professional, enterprise-grade configuration suitable for production  
 
-This infrastructure supports operational efficiency, data integrity, and strong security posture across all departments at Margielos UK.
-# Contributing Guidelines
+This infrastructure supports operational efficiency, data integrity, and strong security posture across all departments at Margielos.
 
-Thanks for your interest in improving Margielos Atelier. Because this project was created for a capstone project and designed to be simple, contributions are welcome but please follow the guidelines below.
-
-## Setting up your environment
-
-1. Install Node.js 18+ and npm.
-2. Install dependencies with `npm install`.
-3. Run the development server with `npm run dev` and visit `http://localhost:3000`.
-
-## Coding Standards
-
-- Use TypeScript for all `.tsx` files.
-- Use functional components and React hooks.
-- Tailwind CSS is the styling framework; avoid inline styles.
-- Keep components small and focused. Reusable UI pieces should live in `app/components/`.
-
-## Branching & Pull Requests
-
-- Create a descriptive feature branch (e.g. `feature/add-wishlist`).
-- Commit messages should be concise and present‑tense.
-- Before opening a Pull Request, ensure `npm run build` and `npm run lint` pass without errors.
-- Provide context and screenshots in the PR description.
-
-## Adding Products
-
-Product data is stored statically in `data/products.ts`. To add a product:
-
-1. Define a new `Product` object in the `products` array. Make sure the `id` is unique.
-2. Provide `slug`, `name`, `description`, `price`, `category`, and image URLs.
-3. If you add new categories, update the navigation links in `app/page.tsx`.
-
-## Future Ideas
-
-While the current version uses localStorage for the cart and static data for products, future improvements could include:
-
-- Connecting a real back‑end (e.g. via Prisma or MongoDB).
-- Implementing user authentication for wishlists or order history.
-- Adding payment processing with Stripe or PayPal.
-- Internationalization and accessibility improvements.
-
-Contributions addressing any of these ideas are welcome. Please open an issue first to discuss large changes.
 
 
 
