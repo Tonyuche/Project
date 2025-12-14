@@ -10,13 +10,13 @@ info@margielos.uk
 </div>
 
 
-**Margielos Clothings** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
- Margielos Clothings currently has a total of 15 employees who carry out their daily work activities using their PCs.
+**Margielos Atelier** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
+ Margielos Atelier currently has a total of 15 employees who carry out their daily work activities using their PCs.
 
 <div align="center">
   
 ## _By_ 
-## *Azureusers IT-Solutions Ltd.*
+## *Azureusers (Group 5)*
  ## Network Documentation
 </div>
 
@@ -92,6 +92,33 @@ The full configuration files will be stored securely, but key configurations are
       * **Trendy-WLAN** ->VLAN 99 (WPA2-PSK for employee mobile)
       * **Trendy-Guest** ->VLAN 90 (Captive Portal enabled)
 
+# Architecture
+
+## Overview
+Margielos Atelier is built with Next.js 16 using the App Router. The project follows a conventional monorepo style with an `app` directory for UI and API routes, a `data` directory for static content, and a `public` directory for static assets.
+
+### UI Layer
+- **Root Layout** – The `app/layout.tsx` file defines metadata (title, description, base URL) and wraps pages in a basic `<html>` and `<body>` structure【897256825091222†L1-L23】. Global styles are imported via `globals.css`.
+- **Home Page** – `app/page.tsx` fetches the product list via `getProducts()` and renders a hero section and product grid【31295513849012†L108-L118】【31295513849012†L121-L144】.
+- **Product Page** – `app/products/[slug]/page.tsx` uses the dynamic route parameter to fetch product details and display them along with an “Add to bag” button【166253349575871†L36-L61】.
+- **Cart Pages** – `app/cart/page.tsx` and `app/cart/confirmation/page.tsx` render the cart UI, summary, and confirmation. The cart page uses a hook provided by the cart context to read and mutate cart state【413448586207448†L33-L38】.
+
+### State Management
+Cart state is managed through a React Context defined in `app/cart-context.tsx`. The context exposes functions to add, increment, decrement, and remove items. It stores the cart items in local state and persists them to `localStorage` so that the bag contents survive page reloads【113552009221774†L34-L57】. The context value includes derived properties `totalCount` and `totalPrice` computed from the items array.
+
+### Data Layer
+Product data lives in `data/products.ts`. It defines a `Product` type and exports an array `products` along with helper functions:
+- `getProducts()` returns the array of products.
+- `getProductBySlug(slug)` searches the products array for a matching slug and returns the product or the first product if not found【999166272045991†L52-L70】.
+
+### API Routes
+Next.js API routes in `app/api/products` expose the products as JSON. The root `route.ts` returns all products【796184619951124†L4-L7】, while the dynamic `[slug]/route.ts` returns a single product or 404 if not found【522016191816061†L4-L12】. These endpoints power the website but can also be consumed by third‑party clients.
+
+### Styling
+Styling is done via Tailwind CSS with utility classes. The project uses a restricted neutral color palette and uppercase letter spacing to reflect the avant‑garde branding. The design is mobile‑first, with responsive classes to adapt layouts on larger screens.
+
+### Assets
+Images and icons are stored in the `public` directory. Product images are external links from Pexels, stored in the product data file.
 ### 5. Organizational Structure, Users & Permissions – Day 1 Deliverable
 #### 5.1. Organizational Unit (OU) Structure
 |**Domain**|**OUs**|**Sub-OUs**|
@@ -408,6 +435,48 @@ The completed GPO deployment provides:
 - A professional, enterprise-grade configuration suitable for production  
 
 This infrastructure supports operational efficiency, data integrity, and strong security posture across all departments at Margielos UK.
+# Contributing Guidelines
+
+Thanks for your interest in improving Margielos Atelier. Because this project was created for a capstone project and designed to be simple, contributions are welcome but please follow the guidelines below.
+
+## Setting up your environment
+
+1. Install Node.js 18+ and npm.
+2. Install dependencies with `npm install`.
+3. Run the development server with `npm run dev` and visit `http://localhost:3000`.
+
+## Coding Standards
+
+- Use TypeScript for all `.tsx` files.
+- Use functional components and React hooks.
+- Tailwind CSS is the styling framework; avoid inline styles.
+- Keep components small and focused. Reusable UI pieces should live in `app/components/`.
+
+## Branching & Pull Requests
+
+- Create a descriptive feature branch (e.g. `feature/add-wishlist`).
+- Commit messages should be concise and present‑tense.
+- Before opening a Pull Request, ensure `npm run build` and `npm run lint` pass without errors.
+- Provide context and screenshots in the PR description.
+
+## Adding Products
+
+Product data is stored statically in `data/products.ts`. To add a product:
+
+1. Define a new `Product` object in the `products` array. Make sure the `id` is unique.
+2. Provide `slug`, `name`, `description`, `price`, `category`, and image URLs.
+3. If you add new categories, update the navigation links in `app/page.tsx`.
+
+## Future Ideas
+
+While the current version uses localStorage for the cart and static data for products, future improvements could include:
+
+- Connecting a real back‑end (e.g. via Prisma or MongoDB).
+- Implementing user authentication for wishlists or order history.
+- Adding payment processing with Stripe or PayPal.
+- Internationalization and accessibility improvements.
+
+Contributions addressing any of these ideas are welcome. Please open an issue first to discuss large changes.
 
 
 
