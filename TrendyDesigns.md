@@ -10,16 +10,50 @@ info@margielos.uk
 </div>
 
 
-**Margielos Clothings** is a new Cloth manufacturing and sales company seeking a whole IT Infrastructure deployment for its operations.  
- Margielos Clothings currently has a total of 15 employees who carry out their daily work activities using their PCs.
+**Margielos** is a small e-commerce clothing company headquartered in Winnipeg, Manitoba.
+The business operates from a **single site** (no branches), with approximately **15 users** across:
 
 <div align="center">
   
 ## _By_ 
 ## *Azureusers (Group 5)*
- ## Network Documentation
 </div>
 
+## 1. Introduction & Scope
+### 1.1 Organization Overview
+* Sales & Customer Service
+* Warehouse
+* HR & Management
+* IT
+* Marketing & E-Commerce
+* Production Floor / Operations
+* Finance
+* Guest / Visitor access
+
+The environment is built on:
+* Cisco routers and switches (R1, R2, SW1, SW2)
+* Cisco ASA firewalls (ASA01, ASA02)
+* Windows and Linux virtual machines hosted on Proxmox.
+* 
+The goal is to simulate a realistic “small production network” for an online retail company, while staying within
+the constraints of an NSA630 capstone lab.
+### 1.2 Project Objectives
+The primary objective of this project is to design and implement a small but realistic enterprise LAN/WAN for
+Margielos that:
+* **Meets or exceeds the NSA630 capstone rubric,** especially in:
+  * Network design and redundancy
+  * Core services integration
+  * Security hardening and documentation quality
+* Provides **VLAN separation** for all major departments (Sales/CS, Warehouse, HR/Management, IT, Marketing/E-Com, Production Floor, Finance, Guest).
+* Delivers **centralized identity and core services:**
+  * Active Directory Domain Services
+  * DNS
+  * DHCP with failover between two domain controllers
+    (Details of AD/DNS/DHCP implementation are documented in the server team’s section; this
+    document focuses on networking.)
+* Implements **redundant default gateways** using HSRP across two routers (R1/R2) and dual      core switches (SW1/SW2), avoiding single points of failure at Layer 3.
+* Provides secure **Internet access** for internal users through ASA firewalls and NAT to the MITT Capstone
+network.
 ### 1. Network Topology
 
 #### 1.1 Physical Topology
