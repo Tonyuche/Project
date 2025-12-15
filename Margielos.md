@@ -19,8 +19,8 @@ The business operates from a **single site** (no branches), with approximately *
 ## *Azureusers (Group 5)*
 </div>
 
-## 1. Introduction & Scope
-### 1.1 Organization Overview
+### 1. Introduction & Scope
+#### 1.1 Organization Overview
 * Sales & Customer Service
 * Warehouse
 * HR & Management
@@ -37,7 +37,7 @@ The environment is built on:
 * 
 The goal is to simulate a realistic “small production network” for an online retail company, while staying within
 the constraints of an NSA630 capstone lab.
-### 1.2 Project Objectives
+#### 1.2 Project Objectives
 The primary objective of this project is to design and implement a small but realistic enterprise LAN/WAN for
 Margielos that:
 * **Meets or exceeds the NSA630 capstone rubric,** especially in:
@@ -64,7 +64,7 @@ Margielos that:
   * Internet access through the ASA firewalls
   * ACL-based access restrictions (e.g., guest and production networks)
   * Selected hardening features (e.g., port-security, DHCP snooping)
-### 1.3 Scope – Networking Focus
+#### 1.3 Scope – Networking Focus
 This document covers the **networking portion** of the Margielos capstone only:
 * Physical and logical topology (routers, switches, firewalls, links)
 * VLAN design and IP addressing
@@ -78,7 +78,7 @@ The following are **intentionally kept brief** here and are documented in detail
 * DNS/DHCP configuration and failover
 * File, backup, and mail services
 * Detailed server-side security (GPOs, file permissions, backup policies)
-### 1.4 Assumptions & Constraints
+#### 1.4 Assumptions & Constraints
 * The solution is deployed in the **MITT NSA630 lab environment** with:
   * Limited physical hardware (two routers, two core switches, two ASAs, a small Proxmox cluster)
   * A shared **Capstone** uplink for Internet connectivity
@@ -90,17 +90,25 @@ The following are **intentionally kept brief** here and are documented in detail
 
 This documentation aims to be clear, technically accurate, and detailed enough that another network administrator could understand and maintain the Margielos environment without access to the original student team.
 
-## 2. Network Topology & Design
-### 2.1 Objective
+### 2. Network Topology & Design
+#### 2.1 Objective
 Describe how the Margielos network is physically and logically structured using:
   * Two Cisco ISR 4321 routers (R1, R2)
   * Two Cisco 2650 switches (SW1, SW2) acting as a collapsed core
   * Two Cisco ASA 5506-X firewalls (ASA01, ASA02)
   * A small set of virtualized servers and wireless access points
+  * 
+#### 2.2 Core Network Devices
+|**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
+|---|---|---|---|---|
+|R1 / R2|	Cisco ISR Router (2900 & 4300)|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
+|SW-A / SW-B	|Cisco Catalyst 2960|	Core switches|	24x FastEthernet, 2x Gig uplinks	|LACP trunk between SW-A and SW-B, VLAN trunking enabled|
+|WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP1 and AP2, guest VLAN isolated|
+|AP1 / AP2	|tp-link AP|	Wireless access	|1x Gig uplink	|AP1 → Sales floor, AP2 → Guest/Production coverage|
 
 The design aims to provide a practical, redundant “small production network” for a single-site e-commerce
 company, while staying aligned with the NSA630 design and documentation rubric items.
-### 2.2 Logical Topology Overview
+#### 2.3 Logical Topology Overview
 At a high level, the network uses a collapsed core with Layer 2 switching and Layer 3 routing on the edge routers:
   * **Core switching – SW1 & SW2 (Cisco 2650)**
       * Operate as Layer 2 switches for all user VLANs.
@@ -140,8 +148,8 @@ At a high level, the network uses a collapsed core with Layer 2 switching and La
 
 Routing between all these VLANs is handled by R1/R2 subinterfaces with HSRP, as detailed in **Section 4 – Gateway Redundancy** and **Section 5 – Inter-VLAN Routing & Default Route.**
 
-### 2.3 Logical Topology Diagram
-#### Figure 2.1 – Logical Network Topology
+#### 2.4 Logical Topology Diagram
+##### Figure 2.1 – Logical Network Topology
 <img width="2165" height="1020" alt="image" src="https://github.com/user-attachments/assets/3da2e281-04ab-431f-960b-156193c4220a" />
 
 
@@ -152,7 +160,7 @@ This figure should show:
    * VLANs (10–90, 999) and their roles
    * Server VLAN (80) with DC01, DC02, and Proxmox host(s)
 
-### 2.4 Physical Topology Overview
+#### 2.5 Physical Topology Overview
 
 Physically, the network is built in a single rack / lab pod with:
   * **Routers**
@@ -198,8 +206,8 @@ Physically, the network is built in a single rack / lab pod with:
         * **DC01** (AD/DNS/DHCP) on SW1 Fa0/3
         * **DC02** (AD/DNS/DHCP) on SW2 Fa0/3
         * A **Proxmox host** on SW1 Fa0/4 providing VMs such as the backup server; the original on-premise mail server was replaced by **Microsoft 365** and no longer requires a dedicated VM.
-### 2.5 Physical Topology Diagram
-#### Figure 2.2 – Physical Network Topology
+#### 2.6 Physical Topology Diagram
+##### Figure 2.2 – Physical Network Topology
 <img width="1782" height="1021" alt="image" src="https://github.com/user-attachments/assets/9420d8f8-ea48-4192-b422-a72512697896" />
 
 This figure should show:
@@ -207,7 +215,7 @@ This figure should show:
    * Lab computers / Proxmox host connections to VLAN 80
    * AP1 cabled to SW1 Fa0/5 (VLAN 10) and AP2 to SW2 Fa0/4 (VLAN 90)
    * Capstone T-ports connected to ASA01/ASA02 outside interfaces
-### 2.6 Wireless Integration (Logical Placement)
+#### 2.7 Wireless Integration (Logical Placement)
 Wireless access is intentionally simple and VLAN-based:
   
    * **AP1 – Staff Wi-Fi (on SW1)**
@@ -220,8 +228,8 @@ Wireless access is intentionally simple and VLAN-based:
 
 Both APs are standalone (no central WLC), which is appropriate for a 15-user single-site deployment and still satisfies the **WLAN** expectations of the rubric.
 
-## 3. IP Addressing & Core Services
-### 3.1 Objective
+### 3. IP Addressing & Core Services
+#### 3.1 Objective
 Define a clear IPv4 addressing scheme and summarize how core network services (DNS and DHCP) are
 integrated into the Margielos network.
 This section focuses on:
@@ -230,7 +238,7 @@ This section focuses on:
    * How DHCP and DNS are provided centrally from the SERVERS VLAN using DHCP relay (ip      helper-address) on the routers.
 
 Detailed AD/DNS/DHCP configuration is documented in the server team’s section; this document only covers the networking view.
-### 3.2 Addressing Conventions
+#### 3.2 Addressing Conventions
 The IPv4 addressing scheme for Margielos uses one /24 subnet per VLAN with a consistent, easy--to-remember pattern:
     
   * **VLAN subnets:**
@@ -264,7 +272,7 @@ The IPv4 addressing scheme for Margielos uses one /24 subnet per VLAN with a con
 
 Static IPs (gateways, servers, network devices) are chosen outside of the DHCP ranges to avoid conflicts and keep the layout predictable.
 
-### 3.3 Core Servers & Roles (Networking View)
+#### 3.3 Core Servers & Roles (Networking View)
 All core servers are located in **VLAN 80 – SERVERS (192.168.80.0/24):**
 |**Server**|**IP Address**|**Role (high level)**|
 |----|----|----|
@@ -275,7 +283,7 @@ All core servers are located in **VLAN 80 – SERVERS (192.168.80.0/24):**
 
 Email services were originally planned to run on-prem, but in the final design **mail is hosted on Microsoft 365**, using the margielos.uk domain. This reduces complexity on the LAN side; no internal mail server IP is required.
 
-### 3.4 DNS & AD Namespace
+#### 3.4 DNS & AD Namespace
 The Active Directory and internal DNS namespace is:
      
   * **AD / DNS domain:** ict.margielos.uk
@@ -290,18 +298,19 @@ From the network perspective:
 internal name resolution always stays on the LAN and does not depend on external DNS for local
 services.
 
-### 3.5 DHCP Design & Relay (ip helper-address)
+#### 3.5 DHCP Design & Relay (ip helper-address)
 DHCP is provided centrally from the SERVERS VLAN using **Windows DHCP failover** between DC01 and DC02:
   * **DHCP servers:**
     * DC01 (192.168.80.11) – primary
     * DC02 (192.168.80.12) – failover partner
   * **Failover mode:**
-    * Windows DHCP failover replication is configured so that all scopes are shared between         DC01 and DC02. If one domain controller is unavailable, the other can continue issuing        leases for all VLANs.
+    * Windows DHCP failover replication is configured so that all scopes are shared between         DC01 and DC02. If one domain controller is unavailable, the other can continue issuing leases for all VLANs.
 
 Because DHCP servers live only in VLAN 80, clients in other VLANs use **DHCP relay** on the routers:
    * On **every VLAN subinterface** on both R1 and R2:
         * ip helper-address 192.168.80.11
         * ip helper-address 192.168.80.12
+
 This ensures:
    * DHCP DISCOVER broadcasts from any VLAN are forwarded (as unicast) to DC01 and DC02.
    * Clients in all VLANs receive the correct:
@@ -312,35 +321,27 @@ This ensures:
 
 Switches remain pure Layer 2 for user VLANs; no DHCP or routing logic is required on SW1/SW2 beyond carrying the VLANs up to the routers.
 
-### 3.6 IP Scheme Summary by VLAN (Networking View)
-From a networking perspective, each VLAN follows the same pattern:
-|**VLAN**| **Name**| **Subnet**| **Gateway (HSRP VIP)**| **DHCP Pool (typical)**|
-|----|----|----|----|---|
-10 SALES_CS 192.168.10.0/24 192.168.10.1 192.168.10.100–200
+#### 3.6 Addressing Documentation
+|**Department**|**VLAN ID**|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
+|----|----|----|----|---|----|---|
+|SALES_CS|10 |192.168.10.0/24|192.168.10.1|.100-.200|PCs: 18-20, POS: 3 units|Sales & customer service,POS VLANS nested under Sales for cashier terminals|
+|WAREHOUSE|20|192.168.20.0/24|192.168.20.1|.100-.200 |PCs: 29-30|Inventory & Warehouse|
+|HR_MGMT|30|192.168.30.0/24|192.168.30.1|no DHCP |PCs: 24-25|HR &management(sensitive)|
+|IT |40|192.168.40.0/24 |192.168.40.1 |.100-.200 |PCs: 26-27|IT workstations /admin |
+|MARKETING_ECOM |50|192.168.50.0/24 |192.168.50.1|.100-.200 |PCs: 23-24|Marketing & ecommerce|
+|PROD_FLOOR|60 |192.168.60.0/24 |192.168.60.1 |.100-.200 |PCs: 31-32| Production devices |
+|INFRA_MGMT|70 |192.168.70.0/24 |192.168.70.1 |no DHCP | |Management SVIs, restricted access|
+|SERVERS|80 |192.168.80.0/24 |192.168.80.1 |static | |App/DB/Infrastructure VMs|
+|DMZ (Optional, will apply if we host it internally)|85|192.168.85.0/24| 192.168.85.1| static| |Public-facing web/reverse-proxy (If we host the webserver internally)|
+|Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC: 33| Restricted VLAN|
+|GUEST|90 |19168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
+|BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
 
-VLAN Name Subnet Gateway (HSRP VIP) DHCP Pool (typical)
-20 WAREHOUSE 192.168.20.0/24 192.168.20.1 192.168.20.100–200
-30 HR_MGMT 192.168.30.0/24 192.168.30.1 192.168.30.100–200
-40 IT 192.168.40.0/24 192.168.40.1 192.168.40.100–200
-50 MARKETING_ECOM 192.168.50.0/24 192.168.50.1 192.168.50.100–200
-60 PROD_FLOOR 192.168.60.0/24 192.168.60.1 192.168.60.100–200
-70 INFRA_MGMT 192.168.70.0/24 192.168.70.1 192.168.70.100–200
-80 SERVERS 192.168.80.0/24 192.168.80.1 (Servers are static)
-85 FINANCE 192.168.85.0/24 192.168.85.1 192.168.85.100–200
-90 GUEST 192.168.90.0/24 192.168.90.1 192.168.90.50–200
-This aligns cleanly with the HSRP design in Section 4 and the subinterface layout in Section 5.
-3.7 Rubric Alignment (Networking & Documentation)
-This section supports the following NSA630 rubric items:
-Documentation – Addressing Table (5 pts)
-Provides a clear IPv4 address scheme and plan for VLANs and servers.
-Networking – Design: IP Addressing (5 pts)
-Demonstrates consistent IPv4 addressing for gateways, routers, servers, and DHCP ranges across
-the network.
-Server & Services – DNS & DHCP (20 pts, shared with server documentation)
 From the networking side, shows how DHCP relay and central DNS/DHCP are integrated into the
 topology (DC01/DC02, helper addresses, failover pair).
-4. Gateway Redundancy – HSRP
-4.1 Objective
+
+### 4. Gateway Redundancy – HSRP
+#### 4.1 Objective
 Provide redundant default gateways for all internal VLANs so that:
 Endpoints always use a single gateway IP per VLAN.
 If the primary router (R1) or its WAN link fails, R2 automatically takes over with minimal disruption.
@@ -366,38 +367,7 @@ remains Active in normal operation; preempt simply allows R2 to take over quickl
 tracked WAN failure causes R1’s priority to drop below 100.
 Authentication: HSRP MD5 authentication enabled on all groups.
 "For every VLAN, .1 is the virtual gateway, .2 is R1, and .3 is R2. R1 is preferred unless its WAN link fails
-### 2. Network Devices and Servers/Services
-#### 2.1 Core Network Devices
-|**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
-|---|---|---|---|---|
-|R1 / R2|	Cisco ISR Router (2900 & 4300)|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
-|SW-A / SW-B	|Cisco Catalyst 2960|	Core switches|	24x FastEthernet, 2x Gig uplinks	|LACP trunk between SW-A and SW-B, VLAN trunking enabled|
-|WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP1 and AP2, guest VLAN isolated|
-|AP1 / AP2	|tp-link AP|	Wireless access	|1x Gig uplink	|AP1 → Sales floor, AP2 → Guest/Production coverage|
 
-#### 2.2 Server Infrastructure
-|Server	|Hostname	|Role	|VLAN	|IP Address|
-|---|---|---|---|---|
-|DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (80)	|192.168.80.2|
-|DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (80)	|192.168.80.3|
-|FileSrv01	|File Server	|Shared storage	|Servers VLAN (80)|	192.168.80.20|
-|InvSrv01	|Inventory Server	|Warehouse DB	|Servers VLAN (80)|192.168.80.30| 
-
-### 3 Addressing Documentation
-|**Department**|**VLAN ID**|**Subnet**|**Gateway(HSRP VIP)**|**DHCP Range (clients)**|**Devices**|**Purpose**|
-|----|----|----|----|---|----|---|
-|SALES_CS|10 |192.168.10.0/24|192.168.10.1|.100-.200|PCs: 18-20, POS: 3 units|Sales & customer service,POS VLANS nested under Sales for cashier terminals|
-|WAREHOUSE|20|192.168.20.0/24|192.168.20.1|.100-.200 |PCs: 29-30|Inventory & Warehouse|
-|HR_MGMT|30|192.168.30.0/24|192.168.30.1|no DHCP |PCs: 24-25|HR &management(sensitive)|
-|IT |40|192.168.40.0/24 |192.168.40.1 |.100-.200 |PCs: 26-27|IT workstations /admin |
-|MARKETING_ECOM |50|192.168.50.0/24 |192.168.50.1|.100-.200 |PCs: 23-24|Marketing & ecommerce|
-|PROD_FLOOR|60 |192.168.60.0/24 |192.168.60.1 |.100-.200 |PCs: 31-32| Production devices |
-|INFRA_MGMT|70 |192.168.70.0/24 |192.168.70.1 |no DHCP | |Management SVIs, restricted access|
-|SERVERS|80 |192.168.80.0/24 |192.168.80.1 |static | |App/DB/Infrastructure VMs|
-|DMZ (Optional, will apply if we host it internally)|85|192.168.85.0/24| 192.168.85.1| static| |Public-facing web/reverse-proxy (If we host the webserver internally)|
-|Finance |120|192.168.120.0/24|192.168.120.1|.100-.200|PC: 33| Restricted VLAN|
-|GUEST|90 |19168.90.0/24 |192.168.90.1|.100-.200|Laptop, Smartphone| Internet-only guests|
-|BLACKHOLE|999 |192.168.199.0/24 |192.168.199.1 |none | |Native/unused VLAN|
 
 ### 5. Organizational Structure, Users & Permissions – Day 1 Deliverable
 #### 5.1. Organizational Unit (OU) Structure
@@ -464,7 +434,14 @@ Authentication: HSRP MD5 authentication enabled on all groups.
 |ProductionDesigns|ProductionUsers|Design files and production workflows|
 |MarketingAssets|MarketingUsers|Graphics, campaigns, brandiing files|
 ### 6. Server & Services Lead
- 
+
+#### 2.2 Server Infrastructure
+|Server	|Hostname	|Role	|VLAN	|IP Address|
+|---|---|---|---|---|
+|DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (80)	|192.168.80.2|
+|DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (80)	|192.168.80.3|
+|FileSrv01	|File Server	|Shared storage	|Servers VLAN (80)|	192.168.80.20|
+|InvSrv01	|Inventory Server	|Warehouse DB	|Servers VLAN (80)|192.168.80.30|  
 #### 6.1 Full Server List + Purpose
 * **DC1 – Primary Domain Controller**  
    Handles Active Directory Domain Services (AD DS) and DNS. Central authority for authentication and directory lookups.
