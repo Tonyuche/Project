@@ -44,7 +44,7 @@ Margielos that:
   * Network design and redundancy
   * Core services integration
   * Security hardening and documentation quality
-* Provides **VLAN separation** for all major departments (Sales/CS, Warehouse, HR/Management, IT, Marketing/E-Com, Production Floor, Finance, Guest).
+* Provides **VLAN separation** for all major departments (Sales/CS, Warehouse, HR/Management,      IT, Marketing/E-Com, Production Floor, Finance, Guest).
 * Delivers **centralized identity and core services:**
   * Active Directory Domain Services
   * DNS
@@ -52,9 +52,42 @@ Margielos that:
     (Details of AD/DNS/DHCP implementation are documented in the server team’s section; this
     document focuses on networking.)
 * Implements **redundant default gateways** using HSRP across two routers (R1/R2) and dual      core switches (SW1/SW2), avoiding single points of failure at Layer 3.
-* Provides secure **Internet access** for internal users through ASA firewalls and NAT to the MITT Capstone
-network.
-### 1. Network Topology
+* Provides secure **Internet access** for internal users through ASA firewalls and NAT to the MITT Capstone network.
+* Delivers **staff and guest Wi-Fi** mapped to the appropriate VLANs, with guest users isolated from internal resources.
+* Enforces **network security controls** including:
+  * Inter-VLAN segmentation with ACLs
+  * Management-plane protection (SSH-only, restricted management VLAN)
+  * Layer-2 hardening (port-security, BPDU Guard, DHCP snooping, Dynamic ARP Inspection, blackhole VLAN for unused ports)
+* Enables **demonstrable features** for the final presentation:
+  * HSRP failover
+  * VLAN routing and DHCP
+  * Internet access through the ASA firewalls
+  * ACL-based access restrictions (e.g., guest and production networks)
+  * Selected hardening features (e.g., port-security, DHCP snooping)
+### 1.3 Scope – Networking Focus
+This document covers the **networking portion** of the Margielos capstone only:
+* Physical and logical topology (routers, switches, firewalls, links)
+* VLAN design and IP addressing
+* Inter-VLAN routing and gateway redundancy
+* NAT and Internet edge integration with ASA01/ASA02
+* ACLs and security policy at Layer 3
+* Switch security and Layer-2 protections
+* Management access strategy (INFRA_MGMT and remote access)
+The following are **intentionally kept brief** here and are documented in detail by other team members:
+* Active Directory forest/domain design
+* DNS/DHCP configuration and failover
+* File, backup, and mail services
+* Detailed server-side security (GPOs, file permissions, backup policies)
+### 1.4 Assumptions & Constraints
+* The solution is deployed in the **MITT NSA630 lab environment** with:
+  * Limited physical hardware (two routers, two core switches, two ASAs, a small Proxmox cluster)
+  * A shared **Capstone** uplink for Internet connectivity
+* Only a **single physical site** is implemented; any branch or multi-site design is out of scope and treated as future work.
+* Public IP addressing is not directly assigned on internal devices; Internet access is provided via the Capstone network and ASA NAT.
+* Design choices favour:
+  * **Clarity and demo-ability** for the capstone presentation
+  * **Alignment with the NSA630 rubric** over full enterprise complexity
+This documentation aims to be clear, technically accurate, and detailed enough that another network administrator could understand and maintain the Margielos environment without access to the original student team.
 
 #### 1.1 Physical Topology
 <img width="1782" height="1021" alt="image" src="https://github.com/user-attachments/assets/9420d8f8-ea48-4192-b422-a72512697896" />
