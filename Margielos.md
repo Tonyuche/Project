@@ -275,6 +275,7 @@ The IPv4 addressing scheme for Margielos uses one /24 subnet per VLAN with a con
 Static IPs (gateways, servers, network devices) are chosen outside of the DHCP ranges to avoid conflicts and keep the layout predictable.
 
 #### 3.3 Core Servers & Roles (Networking View)
+
 All core servers are located in **VLAN 80 – SERVERS (192.168.80.0/24):**
 |**Server**|**IP Address**|**Role (high level)**|
 |----|----|----|
@@ -345,29 +346,27 @@ topology (DC01/DC02, helper addresses, failover pair).
 ### 4. Gateway Redundancy – HSRP
 #### 4.1 Objective
 Provide redundant default gateways for all internal VLANs so that:
-Endpoints always use a single gateway IP per VLAN.
-If the primary router (R1) or its WAN link fails, R2 automatically takes over with minimal disruption.
+
+   * Endpoints always use a single gateway IP per VLAN.
+   * If the primary router (R1) or its WAN link fails, R2 automatically takes over with minimal disruption.
 This supports the Networking – Redundancy and Availability rubric items.
-4.2 Design Overview
-Protocol: Hot Standby Router Protocol (HSRP) version 2
-Network documentation.md 2025-12-12
-11 / 34
-Devices:
-R1 – intended primary default gateway
-R2 – backup default gateway
-Model: Router-on-a-stick (subinterfaces per VLAN on both routers)
-Uplink tracking:
-R1 tracks its WAN/Internet interface Gi0/0 using track 1.
-Addressing pattern per VLAN:
-Virtual IP (gateway): .1
-R1 IP: .2
-R2 IP: .3
-Priority & roles:
-R1: HSRP priority 110, preempt enabled, track 1 decrement 20
-R2: default priority 100, preempt enabled. Because its priority is still lower than R1 (110), R1
-remains Active in normal operation; preempt simply allows R2 to take over quickly when R1’s
-tracked WAN failure causes R1’s priority to drop below 100.
-Authentication: HSRP MD5 authentication enabled on all groups.
+
+#### 4.2 Design Overview
+  * **Protocol:** Hot Standby Router Protocol **(HSRP) version 2**
+  * **Devices:**
+     * R1 – intended **primary** default gateway
+     * R2 – **backup** default gateway
+  * **Model:** Router-on-a-stick (subinterfaces per VLAN on both routers)
+  * **Uplink tracking:**
+     * R1 tracks its WAN/Internet interface Gi0/0 using track 1.
+  * **Addressing pattern per VLAN:**
+     * **Virtual IP (gateway):** .1
+     * **R1 IP:** .2
+     * **R2 IP:** .3
+  * **Priority & roles:**
+     * **R1:** HSRP priority **110**, preempt enabled, track 1 decrement 20
+     * **R2:** default priority **100**, preempt enabled. Because its priority is still lower        than R1 (110), R1 remains Active in normal operation; preempt simply allows R2 to take        over quickly when R1’s tracked WAN failure causes R1’s priority to drop below 100.
+  * **Authentication:** HSRP **MD5** authentication enabled on all groups.
 "For every VLAN, .1 is the virtual gateway, .2 is R1, and .3 is R2. R1 is preferred unless its WAN link fails
 
 
