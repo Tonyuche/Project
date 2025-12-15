@@ -387,6 +387,30 @@ VLAN 10 → group 10).
 
 VLAN 999 is used as native/blackhole and does not run HSRP because no hosts are assigned there.
 #### 4.4 Key Configuration Decisions (High-Level)
+We don’t include full show run dumps in the main document, just the important decisions:
+   * **1. Consistent VIP & addressing**
+        * Each VLAN uses .1 as the HSRP virtual IP, so client default gateways are simple and predictable.
+        * R1 uses .2, R2 uses .3 on each VLAN, matching the addressing convention across the whole
+network.
+   
+  * **2. Primary/backup behaviour**
+
+     * R1 is configured as the **Active** router for all VLANs using higher priority (110) and preempt.
+     * R2 uses the default HSRP priority (100) and **does not** preempt, so it only becomes Active when R1 fails or its priority drops.
+  
+  * **3. WAN link tracking on R1**
+     * R1 monitors its WAN interface (Gi0/0) with tracking.
+     * If the WAN goes down, R1’s priority for all HSRP groups is decreased by 20 (110 → 90), allowing  R2 (priority 100) to take over.
+     * This ensures traffic fails over to R2 when Internet connectivity on R1 is lost, even if R1 itself is still powered on.
+
+  * **4. HSRP version and security**
+      * HSRP version 2 is used on all groups for compatibility with multiple VLANs and IPv4 addressing.
+      * All HSRP groups use **MD5 authentication,** preventing unauthorized devices from participating in HSRP.
+
+#### 4.5 Assumptions & Limitations
+   * Only R1’s WAN interface is tracked; if R2’s uplink fails, the network relies on R1 remaining healthy.
+   * Default HSRP timers (3s hello, 10s hold) are used, which are acceptable for this lab environment.
+   * HSRP provides default-gateway redundancy, not full path optimization. More advanced dynamic routing is outside the scope of this project
 
 ### 5. Organizational Structure, Users & Permissions – Day 1 Deliverable
 #### 5.1. Organizational Unit (OU) Structure
