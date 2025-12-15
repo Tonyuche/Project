@@ -369,6 +369,24 @@ This supports the Networking – Redundancy and Availability rubric items.
   * **Authentication:** HSRP **MD5** authentication enabled on all groups.
 "For every VLAN, .1 is the virtual gateway, .2 is R1, and .3 is R2. R1 is preferred unless its WAN link fails
 
+#### 4.3 HSRP Group & Gateway Plan
+We use **one HSRP instance per user VLAN,** with the **group number equal to the VLAN ID** for clarity (e.g.,
+VLAN 10 → group 10).
+|**VLAN**| **Name**| **Subnet**| **VIP (Gateway)**| **R1 IP**| **R2 IP**| **HSRP Group**|
+|---|---|---|---|---|---|---|
+|10| SALES_CS| 192.168.10.0/24| 192.168.10.1 |192.168.10.2| 192.168.10.3|10|
+|20 |WAREHOUSE| 192.168.20.0/24 |192.168.20.1 |192.168.20.2 |192.168.20.3 |20|
+|30| HR_MGMT| 192.168.30.0/24| 192.168.30.1 |192.168.30.2| 192.168.30.3 |30|
+|40 |IT| 192.168.40.0/24| 192.168.40.1 |192.168.40.2| 192.168.40.3 |40|
+|50 |MARKETING_ECOM |192.168.50.0/24 |192.168.50.1| 192.168.50.2| 192.168.50.3 |50|
+|60 |PROD_FLOOR |192.168.60.0/24| 192.168.60.1 |192.168.60.2 |192.168.60.3| 60|
+|70| INFRA_MGMT |192.168.70.0/24 |192.168.70.1| 192.168.70.2 |192.168.70.3| 70|
+|80 |SERVERS |192.168.80.0/24| 192.168.80.1| 192.168.80.2 |192.168.80.3| 80|
+|85 |FINANCE |192.168.85.0/24|| 192.168.85.1 |192.168.85.2 |192.168.85.3 |85||
+|90 |GUEST |192.168.90.0/24| 192.168.90.1 |192.168.90.2| 192.168.90.3| 90|
+
+VLAN 999 is used as native/blackhole and does not run HSRP because no hosts are assigned there.
+#### 4.4 Key Configuration Decisions (High-Level)
 
 ### 5. Organizational Structure, Users & Permissions – Day 1 Deliverable
 #### 5.1. Organizational Unit (OU) Structure
