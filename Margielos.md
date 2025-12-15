@@ -90,6 +90,71 @@ The following are **intentionally kept brief** here and are documented in detail
 
 This documentation aims to be clear, technically accurate, and detailed enough that another network administrator could understand and maintain the Margielos environment without access to the original student team.
 
+## 2. Network Topology & Design
+### 2.1 Objective
+Describe how the Margielos network is physically and logically structured using:
+  * Two Cisco ISR 4321 routers (R1, R2)
+  * Two Cisco 2650 switches (SW1, SW2) acting as a collapsed core
+  * Two Cisco ASA 5506-X firewalls (ASA01, ASA02)
+  * A small set of virtualized servers and wireless access points
+
+The design aims to provide a practical, redundant “small production network” for a single-site e-commerce
+company, while staying aligned with the NSA630 design and documentation rubric items.
+### 2.2 Logical Topology Overview
+At a high level, the network uses a collapsed core with Layer 2 switching and Layer 3 routing on the edge routers:
+  * **Core switching – SW1 & SW2 (Cisco 2650)**
+      * Operate as Layer 2 switches for all user VLANs.
+      * Connected together using an **LACP EtherChannel (Port-Channel1)** built from Fa0/1– Fa0/2 on both switches.
+      * The EtherChannel is an 802.1Q trunk carrying VLANs 10,20,30,40,50,60,70,80,85,90 with
+**native VLAN 999 (BLACKHOLE).**
+  * **Routers – R1 & R2 (Cisco 4321)**
+       * Provide **inter-VLAN routing** and default gateways for all VLANs using **router-on-a-stick** subinterfaces.
+       * Each user VLAN has:
+          * HSRP virtual IP .1 as the default gateway
+          * R1 IP .2 on Gi0/1.x
+          * R2 IP .3 on Gi0/0/1.x
+       * **R1 → SW1:**
+          * R1 Gi0/1 is an 802.1Q trunk to SW1 Gi0/1, carrying all VLANs.
+       * **R2 → SW2:**
+          * R2 Gi0/0/1 is an 802.1Q trunk to SW2 Gi0/1, carrying the same VLANs.
+  * **Firewalls – ASA01 & ASA02 (Cisco ASA 5506-X)**
+      * **ASA01 (primary edge)**
+          * Gi1/2 – **inside:** 192.168.254.2/30, connected to R1 Gi0/0 (192.168.254.1/30).
+          * Gi1/1 – **outside:** DHCP from the MITT Capstone network (ip address dhcp setroute).
+      * **ASA02 (redundant edge)**
+          * Gi1/2 – **inside:** 192.168.254.6/30, connected to R2 Gi0/0/0 (192.168.254.5/30).
+          * Gi1/1 – **outside:** DHCP from Capstone, similar to ASA01.
+  * **Internal VLANs / Subnets (Layer 3 view)**
+         * 10 – SALES_CS – 192.168.10.0/24
+         * 20 – WAREHOUSE – 192.168.20.0/24
+         * 30 – HR_MGMT – 192.168.30.0/24
+         * 40 – IT – 192.168.40.0/24
+         * 50 – MARKETING_ECOM – 192.168.50.0/24
+         * 60 – PROD_FLOOR – 192.168.60.0/24
+         * 70 – INFRA_MGMT – 192.168.70.0/24
+         * 80 – SERVERS – 192.168.80.0/24
+         * 85 – FINANCE – 192.168.85.0/24
+         * 90 – GUEST – 192.168.90.0/24
+         * 999 – BLACKHOLE/native – 192.168.199.0/24 (no end hosts)
+
+Routing between all these VLANs is handled by R1/R2 subinterfaces with HSRP, as detailed in **Section 4 – Gateway Redundancy** and **Section 5 – Inter-VLAN Routing & Default Route.**
+
+### 2.3 Logical Topology Diagram
+#### Figure 2.1 – Logical Network Topology
+<img width="2165" height="1020" alt="image" src="https://github.com/user-attachments/assets/3da2e281-04ab-431f-960b-156193c4220a" />
+
+This figure should show:
+R1/R2 connected to SW1/SW2 via 802.1Q trunks
+SW1/SW2 connected by Port-Channel1
+ASA01/ASA02 between the routers and the Capstone network
+VLANs (10–90, 999) and their roles
+Server VLAN (80) with DC01, DC02, and Proxmox host(s)
+#### 1.3 Network Topology Summary ###
+ * Two routers (R1, R2) each connected redundantly to two core switches (SW1, SW2).
+ * SW1 <-> SW2: 2x parallel links aggregated with LACP (Port-Channel) to avoid STP flapping.
+ * R1 and R2 present router-on-a-stick subinterfaces (802.1Q trunk) for VLANs.
+ * HSRP for default-gateway high-availability across VLANs.
+
 #### 1.1 Physical Topology
 <img width="1782" height="1021" alt="image" src="https://github.com/user-attachments/assets/9420d8f8-ea48-4192-b422-a72512697896" />
 
@@ -101,14 +166,8 @@ This documentation aims to be clear, technically accurate, and detailed enough t
   *  PCs devices are wired for maximum reliability and speed.
   *  Wireless Access Points (APs) are ceiling-mounted and PoE-powered from the switch to provide office-wide $\text{Wi-Fi}$ coverage.
 
-#### 1.2 Logical Topology
-<img width="2165" height="1020" alt="image" src="https://github.com/user-attachments/assets/3da2e281-04ab-431f-960b-156193c4220a" />
 
-#### 1.3 Network Topology Summary ###
- * Two routers (R1, R2) each connected redundantly to two core switches (SW1, SW2).
- * SW1 <-> SW2: 2x parallel links aggregated with LACP (Port-Channel) to avoid STP flapping.
- * R1 and R2 present router-on-a-stick subinterfaces (802.1Q trunk) for VLANs.
- * HSRP for default-gateway high-availability across VLANs.
+
 ### 2. Network Devices and Servers/Services
 #### 2.1 Core Network Devices
 |**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
