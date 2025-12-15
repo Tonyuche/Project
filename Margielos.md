@@ -143,17 +143,55 @@ Routing between all these VLANs is handled by R1/R2 subinterfaces with HSRP, as 
 #### Figure 2.1 – Logical Network Topology
 <img width="2165" height="1020" alt="image" src="https://github.com/user-attachments/assets/3da2e281-04ab-431f-960b-156193c4220a" />
 
+
 This figure should show:
-R1/R2 connected to SW1/SW2 via 802.1Q trunks
-SW1/SW2 connected by Port-Channel1
-ASA01/ASA02 between the routers and the Capstone network
-VLANs (10–90, 999) and their roles
-Server VLAN (80) with DC01, DC02, and Proxmox host(s)
-#### 1.3 Network Topology Summary ###
- * Two routers (R1, R2) each connected redundantly to two core switches (SW1, SW2).
- * SW1 <-> SW2: 2x parallel links aggregated with LACP (Port-Channel) to avoid STP flapping.
- * R1 and R2 present router-on-a-stick subinterfaces (802.1Q trunk) for VLANs.
- * HSRP for default-gateway high-availability across VLANs.
+   * R1/R2 connected to SW1/SW2 via 802.1Q trunks
+   * SW1/SW2 connected by Port-Channel1
+   * ASA01/ASA02 between the routers and the Capstone network
+   * VLANs (10–90, 999) and their roles
+   * Server VLAN (80) with DC01, DC02, and Proxmox host(s)
+
+### 2.4 Physical Topology Overview
+Physically, the network is built in a single rack / lab pod with:
+Routers
+R1 (ISR 4321) mounted near the top of the rack, cabled:
+Gi0/1 → SW1 Gi0/1 (trunk)
+Gi0/0 → ASA01 Gi1/2 (inside transit)
+R2 (ISR 4321) cabled:
+Gi0/0/1 → SW2 Gi0/1 (trunk)
+Gi0/0/0 → ASA02 Gi1/2 (inside transit)
+Core Switches (Cisco 2650)
+SW1
+Gi0/1 – trunk to R1
+Fa0/1–2 – LACP member links to SW2 Fa0/1–2 (Port-Channel1)
+Fa0/3 – access port in VLAN 80 for DC01 (AD/DNS/DHCP).
+Fa0/4 – access port in VLAN 80 for a Proxmox host (backup server and other VMs).
+Fa0/5–8 – access ports in VLAN 10 for Sales/CS PCs and AP1.
+Fa0/9–10 – access ports in VLAN 30 for HR_MGMT PCs.
+Fa0/11–12 – access ports in VLAN 40 for IT workstations.
+Fa0/13–16 – VLAN 999 (BLACKHOLE) for unused ports, administratively shut.
+SW2
+Gi0/1 – trunk to R2 (description uplink to R2 G0/0/1).
+Fa0/1–2 – LACP member links to SW1 Fa0/1–2 (Port-Channel1).
+Fa0/3 – access port in VLAN 80 for DC02 (AD/DNS/DHCP).
+Fa0/4 – access port in VLAN 90 for AP2 / Guest Wi-Fi.
+Additional access ports allocated per VLAN for user PCs as needed (Warehouse,
+Prod_Floor, Finance, etc.).
+Firewalls (ASA 5506-X)
+ASA01
+Gi1/2 (inside) → R1 Gi0/0 on 192.168.254.0/30
+Gi1/1 (outside) → Capstone T-port (DHCP, default route learned upstream)
+ASA02
+Gi1/2 (inside) → R2 Gi0/0/0 on 192.168.254.4/30
+Gi1/1 (outside) → second Capstone T-port
+Servers & Virtualization
+All servers live in VLAN 80 (SERVERS, 192.168.80.0/24) and are connected via switch access
+ports:
+DC01 (AD/DNS/DHCP) on SW1 Fa0/3
+DC02 (AD/DNS/DHCP) on SW2 Fa0/3
+A Proxmox host on SW1 Fa0/4 providing VMs such as the backup server; the original onprem
+mail server was replaced by Microsoft 365 and no longer requires a dedicated VM.
+2.5 Physical Topology Diagram
 
 #### 1.1 Physical Topology
 <img width="1782" height="1021" alt="image" src="https://github.com/user-attachments/assets/9420d8f8-ea48-4192-b422-a72512697896" />
