@@ -124,7 +124,8 @@ At a high level, the network uses a collapsed core with Layer 2 switching and La
       * **ASA02 (redundant edge)**
           * Gi1/2 – **inside:** 192.168.254.6/30, connected to R2 Gi0/0/0 (192.168.254.5/30).
           * Gi1/1 – **outside:** DHCP from Capstone, similar to ASA01.
-  * **Internal VLANs / Subnets (Layer 3 view)**
+      
+      * **Internal VLANs / Subnets (Layer 3 view)**
          * 10 – SALES_CS – 192.168.10.0/24
          * 20 – WAREHOUSE – 192.168.20.0/24
          * 30 – HR_MGMT – 192.168.30.0/24
