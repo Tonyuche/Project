@@ -290,6 +290,82 @@ From the network perspective:
 internal name resolution always stays on the LAN and does not depend on external DNS for local
 services.
 
+### 3.5 DHCP Design & Relay (ip helper-address)
+DHCP is provided centrally from the SERVERS VLAN using **Windows DHCP failover** between DC01 and DC02:
+  * **DHCP servers:**
+    * DC01 (192.168.80.11) – primary
+    * DC02 (192.168.80.12) – failover partner
+  * **Failover mode:**
+    * Windows DHCP failover replication is configured so that all scopes are shared between         DC01 and DC02. If one domain controller is unavailable, the other can continue issuing        leases for all VLANs.
+
+Because DHCP servers live only in VLAN 80, clients in other VLANs use **DHCP relay** on the routers:
+   * On **every VLAN subinterface** on both R1 and R2:
+        * ip helper-address 192.168.80.11
+        * ip helper-address 192.168.80.12
+This ensures:
+   * DHCP DISCOVER broadcasts from any VLAN are forwarded (as unicast) to DC01 and DC02.
+   * Clients in all VLANs receive the correct:
+        * IP address in the proper subnet
+        * Default gateway (.1 HSRP VIP)
+        * DNS servers (DC01/DC02)
+        * Any required DHCP options (set on the Windows DHCP side)
+
+Switches remain pure Layer 2 for user VLANs; no DHCP or routing logic is required on SW1/SW2 beyond carrying the VLANs up to the routers.
+
+### 3.6 IP Scheme Summary by VLAN (Networking View)
+From a networking perspective, each VLAN follows the same pattern:
+|**VLAN**| **Name**| **Subnet**| **Gateway (HSRP VIP)**| **DHCP Pool (typical)**|
+|----|----|----|----|---|
+10 SALES_CS 192.168.10.0/24 192.168.10.1 192.168.10.100–200
+
+VLAN Name Subnet Gateway (HSRP VIP) DHCP Pool (typical)
+20 WAREHOUSE 192.168.20.0/24 192.168.20.1 192.168.20.100–200
+30 HR_MGMT 192.168.30.0/24 192.168.30.1 192.168.30.100–200
+40 IT 192.168.40.0/24 192.168.40.1 192.168.40.100–200
+50 MARKETING_ECOM 192.168.50.0/24 192.168.50.1 192.168.50.100–200
+60 PROD_FLOOR 192.168.60.0/24 192.168.60.1 192.168.60.100–200
+70 INFRA_MGMT 192.168.70.0/24 192.168.70.1 192.168.70.100–200
+80 SERVERS 192.168.80.0/24 192.168.80.1 (Servers are static)
+85 FINANCE 192.168.85.0/24 192.168.85.1 192.168.85.100–200
+90 GUEST 192.168.90.0/24 192.168.90.1 192.168.90.50–200
+This aligns cleanly with the HSRP design in Section 4 and the subinterface layout in Section 5.
+3.7 Rubric Alignment (Networking & Documentation)
+This section supports the following NSA630 rubric items:
+Documentation – Addressing Table (5 pts)
+Provides a clear IPv4 address scheme and plan for VLANs and servers.
+Networking – Design: IP Addressing (5 pts)
+Demonstrates consistent IPv4 addressing for gateways, routers, servers, and DHCP ranges across
+the network.
+Server & Services – DNS & DHCP (20 pts, shared with server documentation)
+From the networking side, shows how DHCP relay and central DNS/DHCP are integrated into the
+topology (DC01/DC02, helper addresses, failover pair).
+4. Gateway Redundancy – HSRP
+4.1 Objective
+Provide redundant default gateways for all internal VLANs so that:
+Endpoints always use a single gateway IP per VLAN.
+If the primary router (R1) or its WAN link fails, R2 automatically takes over with minimal disruption.
+This supports the Networking – Redundancy and Availability rubric items.
+4.2 Design Overview
+Protocol: Hot Standby Router Protocol (HSRP) version 2
+Network documentation.md 2025-12-12
+11 / 34
+Devices:
+R1 – intended primary default gateway
+R2 – backup default gateway
+Model: Router-on-a-stick (subinterfaces per VLAN on both routers)
+Uplink tracking:
+R1 tracks its WAN/Internet interface Gi0/0 using track 1.
+Addressing pattern per VLAN:
+Virtual IP (gateway): .1
+R1 IP: .2
+R2 IP: .3
+Priority & roles:
+R1: HSRP priority 110, preempt enabled, track 1 decrement 20
+R2: default priority 100, preempt enabled. Because its priority is still lower than R1 (110), R1
+remains Active in normal operation; preempt simply allows R2 to take over quickly when R1’s
+tracked WAN failure causes R1’s priority to drop below 100.
+Authentication: HSRP MD5 authentication enabled on all groups.
+"For every VLAN, .1 is the virtual gateway, .2 is R1, and .3 is R2. R1 is preferred unless its WAN link fails
 ### 2. Network Devices and Servers/Services
 #### 2.1 Core Network Devices
 |**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
