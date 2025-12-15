@@ -202,15 +202,93 @@ Physically, the network is built in a single rack / lab pod with:
 #### Figure 2.2 – Physical Network Topology
 <img width="1782" height="1021" alt="image" src="https://github.com/user-attachments/assets/9420d8f8-ea48-4192-b422-a72512697896" />
 
+This figure should show:
+   * Physical locations of R1, R2, SW1, SW2, ASA01, ASA02
+   * Lab computers / Proxmox host connections to VLAN 80
+   * AP1 cabled to SW1 Fa0/5 (VLAN 10) and AP2 to SW2 Fa0/4 (VLAN 90)
+   * Capstone T-ports connected to ASA01/ASA02 outside interfaces
+### 2.6 Wireless Integration (Logical Placement)
+Wireless access is intentionally simple and VLAN-based:
+  
+   * **AP1 – Staff Wi-Fi (on SW1)**
+        * Connected to SW1 Fa0/5 as an **access port in VLAN 10 (SALES_CS).**
+        * Provides Staff/Corp SSID mapped to VLAN 10, giving the same access as wired clients           in that VLAN (subject to routed ACLs).
 
-* **Focus:** A centralized, rack-mounted approach for core equipment with structured cabling to endpoints.
-* **Core Equipment Location:** A dedicated, locked server closet or data cabinet is recommended for the Firewall/Router, Managed Switch, and Server.
-* **Wiring:** All permanent devices (PCs, Access Points) must be connected using **Cat6 Ethernet cable** running through a Patch Panel in the closet, connecting to the Managed Switch.
-* **Endpoints:**
-  *  PCs devices are wired for maximum reliability and speed.
-  *  Wireless Access Points (APs) are ceiling-mounted and PoE-powered from the switch to provide office-wide $\text{Wi-Fi}$ coverage.
+  * **AP2 – Guest Wi-Fi (on SW2)**
+    * Connected to SW2 Fa0/4 as **an access port in VLAN 90 (GUEST).**
+    * Provides Guest SSID mapped to VLAN 90, with Internet-only access enforced by the              GUEST_IN ACL and firewall/NAT design (described in Section 7 and Section 6).
 
+Both APs are standalone (no central WLC), which is appropriate for a 15-user single-site deployment and still satisfies the **WLAN** expectations of the rubric.
 
+## 3. IP Addressing & Core Services
+### 3.1 Objective
+Define a clear IPv4 addressing scheme and summarize how core network services (DNS and DHCP) are
+integrated into the Margielos network.
+This section focuses on:
+   * How VLANs and subnets are structured.
+   * How default gateway and server IPs follow a consistent pattern.
+   * How DHCP and DNS are provided centrally from the SERVERS VLAN using DHCP relay (ip      helper-address) on the routers.
+
+Detailed AD/DNS/DHCP configuration is documented in the server team’s section; this document only covers the networking view.
+### 3.2 Addressing Conventions
+The IPv4 addressing scheme for Margielos uses one /24 subnet per VLAN with a consistent, easy--to-remember pattern:
+    
+  * **VLAN subnets:**
+     * 10 – SALES_CS – 192.168.10.0/24
+     * 20 – WAREHOUSE – 192.168.20.0/24
+     * 30 – HR_MGMT – 192.168.30.0/24
+     * 40 – IT – 192.168.40.0/24
+     * 50 – MARKETING_ECOM – 192.168.50.0/24
+     * 60 – PROD_FLOOR – 192.168.60.0/24
+     * 70 – INFRA_MGMT – 192.168.70.0/24
+     * 80 – SERVERS – 192.168.80.0/24
+     * 85 – FINANCE – 192.168.85.0/24
+     * 90 – GUEST – 192.168.90.0/24
+     * 999 – BLACKHOLE/native – 192.168.199.0/24 (no end hosts)
+
+   * **Default gateway pattern (per VLAN):**
+     * .1 – HSRP virtual IP (gateway)
+     * .2 – R1 subinterface IP
+     * .3 – R2 subinterface IP
+  
+   * **Server addressing (VLAN 80 – SERVERS):**
+     * .11–.19 range reserved for key infrastructure servers:
+          * DC01: 192.168.80.11
+          * DC02: 192.168.80.12
+          * Proxmox host: 192.168.80.13
+          * Backup server VM: 192.168.80.14
+
+   * **DHCP pool ranges:**
+     * For most VLANs, DHCP scope range: .100–.200
+     * For Guest VLAN 90, DHCP scope range: .50–.200 (to allow more guest clients without            clashing with infrastructure patterns)
+
+Static IPs (gateways, servers, network devices) are chosen outside of the DHCP ranges to avoid conflicts and keep the layout predictable.
+
+### 3.3 Core Servers & Roles (Networking View)
+All core servers are located in **VLAN 80 – SERVERS (192.168.80.0/24):**
+|**Server**|**IP Address**|**Role (high level)**|
+|----|----|----|
+|**DC01**| 192.168.80.11| AD DS, DNS, DHCP|
+|**DC02**| 192.168.80.12| AD DS, DNS, DHCP (failover partner to DC01)|
+|**Proxmox** |192.168.80.13 |Virtualization host (e.g., backup server VM)|
+|**Backup VM**| 192.168.80.14| Backup services (VM-level / file-level, as needed)|
+
+Email services were originally planned to run on-prem, but in the final design **mail is hosted on Microsoft 365**, using the margielos.uk domain. This reduces complexity on the LAN side; no internal mail server IP is required.
+
+### 3.4 DNS & AD Namespace
+The Active Directory and internal DNS namespace is:
+     
+  * **AD / DNS domain:** ict.margielos.uk
+
+Both DC01 and DC02 host:
+   * AD DS for user/computer authentication.
+   * Internal DNS zones for ict.margielos.uk (and any necessary forward/reverse zones).
+
+From the network perspective:
+   * All client VLANs use the HSRP gateway (.1) as their default gateway.
+   * DNS servers handed out by DHCP (from DC01/DC02) are 192.168.80.11 and 192.168.80.12, so
+internal name resolution always stays on the LAN and does not depend on external DNS for local
+services.
 
 ### 2. Network Devices and Servers/Services
 #### 2.1 Core Network Devices
