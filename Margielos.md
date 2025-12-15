@@ -476,15 +476,8 @@ network.
 |InventoryDB|InventoryUsers|Inventory database and stock files|
 |ProductionDesigns|ProductionUsers|Design files and production workflows|
 |MarketingAssets|MarketingUsers|Graphics, campaigns, brandiing files|
-### 6. Server & Services Lead
 
-#### 2.2 Server Infrastructure
-|Server	|Hostname	|Role	|VLAN	|IP Address|
-|---|---|---|---|---|
-|DC01|	Domain Controller	|Active Directory, DNS, DHCP	|Servers VLAN (80)	|192.168.80.2|
-|DC02	|Backup Domain Controller|	Redundancy, DNS secondary	|Servers VLAN (80)	|192.168.80.3|
-|FileSrv01	|File Server	|Shared storage	|Servers VLAN (80)|	192.168.80.20|
-|InvSrv01	|Inventory Server	|Warehouse DB	|Servers VLAN (80)|192.168.80.30|  
+### 6. Server & Services Lead
 #### 6.1 Full Server List + Purpose
 * **DC1 – Primary Domain Controller**  
    Handles Active Directory Domain Services (AD DS) and DNS. Central authority for authentication and directory lookups.
