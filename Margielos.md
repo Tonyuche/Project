@@ -34,7 +34,7 @@ The environment is built on:
 * Cisco routers and switches (R1, R2, SW1, SW2)
 * Cisco ASA firewalls (ASA01, ASA02)
 * Windows and Linux virtual machines hosted on Proxmox.
-* 
+  
 The goal is to simulate a realistic “small production network” for an online retail company, while staying within
 the constraints of an NSA630 capstone lab.
 #### 1.2 Project Objectives
@@ -97,15 +97,16 @@ Describe how the Margielos network is physically and logically structured using:
   * Two Cisco 2650 switches (SW1, SW2) acting as a collapsed core
   * Two Cisco ASA 5506-X firewalls (ASA01, ASA02)
   * A small set of virtualized servers and wireless access points
-  * 
+   
 #### 2.2 Core Network Devices
-|**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|
+|**Device**|**Model/Type**|**Role**	|**Interfaces**|**Notes**|[Network documentation (1).pdf](https://github.com/user-attachments/files/24163700/Network.documentation.1.pdf)
+
 |---|---|---|---|---|
 |R1 / R2|	Cisco ISR Router (2900 & 4300)|	Redundant edge routers|	Gig0/0 → ISP uplink, Gig0/1 → Core SW	|HSRP configured for default gateway redundancy|
 |SW-A / SW-B	|Cisco Catalyst 2960|	Core switches|	24x FastEthernet, 2x Gig uplinks	|LACP trunk between SW-A and SW-B, VLAN trunking enabled|
 |WLC2504	|Cisco Wireless LAN Controller	|Centralized AP management	|4x Gig ports	|Manages AP1 and AP2, guest VLAN isolated|
 |AP1 / AP2	|tp-link AP|	Wireless access	|1x Gig uplink	|AP1 → Sales floor, AP2 → Guest/Production coverage|
-
+|ASA01/ASA02|Cisco ASA 5506-X|Traffic filtering|Gig1/1 ISP uplink, Gig1/2 Router connect|Access Control,logging and monitoring|
 The design aims to provide a practical, redundant “small production network” for a single-site e-commerce
 company, while staying aligned with the NSA630 design and documentation rubric items.
 #### 2.3 Logical Topology Overview
