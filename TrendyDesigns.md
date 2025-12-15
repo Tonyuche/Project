@@ -87,6 +87,7 @@ The following are **intentionally kept brief** here and are documented in detail
 * Design choices favour:
   * **Clarity and demo-ability** for the capstone presentation
   * **Alignment with the NSA630 rubric** over full enterprise complexity
+
 This documentation aims to be clear, technically accurate, and detailed enough that another network administrator could understand and maintain the Margielos environment without access to the original student team.
 
 #### 1.1 Physical Topology
