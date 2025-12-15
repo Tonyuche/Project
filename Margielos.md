@@ -153,18 +153,20 @@ This figure should show:
    * Server VLAN (80) with DC01, DC02, and Proxmox host(s)
 
 ### 2.4 Physical Topology Overview
+
 Physically, the network is built in a single rack / lab pod with:
-Routers
-R1 (ISR 4321) mounted near the top of the rack, cabled:
-Gi0/1 → SW1 Gi0/1 (trunk)
-Gi0/0 → ASA01 Gi1/2 (inside transit)
-R2 (ISR 4321) cabled:
-Gi0/0/1 → SW2 Gi0/1 (trunk)
-Gi0/0/0 → ASA02 Gi1/2 (inside transit)
-Core Switches (Cisco 2650)
-SW1
-Gi0/1 – trunk to R1
-Fa0/1–2 – LACP member links to SW2 Fa0/1–2 (Port-Channel1)
+  * **Routers**
+      * R1 (ISR 4321) mounted near the top of the rack, cabled:
+        * Gi0/1 → SW1 Gi0/1 (trunk)
+        * Gi0/0 → ASA01 Gi1/2 (inside transit)
+      * R2 (ISR 4321) cabled:
+        * Gi0/0/1 → SW2 Gi0/1 (trunk)
+        * Gi0/0/0 → ASA02 Gi1/2 (inside transit)
+
+  * **Core Switches (Cisco 2650)**
+       * SW1
+           * Gi0/1 – trunk to R1
+       Fa0/1–2 – LACP member links to SW2 Fa0/1–2 (Port-Channel1)
 Fa0/3 – access port in VLAN 80 for DC01 (AD/DNS/DHCP).
 Fa0/4 – access port in VLAN 80 for a Proxmox host (backup server and other VMs).
 Fa0/5–8 – access ports in VLAN 10 for Sales/CS PCs and AP1.
